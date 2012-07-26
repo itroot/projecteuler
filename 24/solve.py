@@ -3,7 +3,7 @@
 
 import math
 
-upperLimit=2
+upperLimit=9
 
 digits=range(0, upperLimit+1)
 
@@ -27,7 +27,9 @@ def nth_permutation(digits, number):
     reminder=number%(prevFactorial)
     newDigits=list(digits)
     newDigits[0], newDigits[divide_result]=newDigits[divide_result], newDigits[0]
-    return [newDigits[0]]+nth_permutation(newDigits[1:], reminder)
+    return [newDigits[0]]+nth_permutation(sorted(newDigits[1:]), reminder)
 
-for i in range(0, math.factorial(upperLimit+1)):
-    print nth_permutation(digits, i)
+#for i in range(0, math.factorial(upperLimit+1)):
+#    print nth_permutation(digits, i)
+
+print "".join(map(lambda e: str(e), nth_permutation(digits, 1000000-1)))
