@@ -8,15 +8,6 @@ import sys
 sys.path.append("../lib")
 from Factorize import *
 
-def factorization2power(factorization):
-    result={}
-    for factor in factorization:
-        if factor in result:
-            result[factor]+=1
-        else:
-            result[factor]=1
-    return result
-
 def numberOfDivisorsFromFactors(factorization):
     factor2power=factorization2power(factorization)
     result=1

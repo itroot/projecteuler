@@ -19,3 +19,12 @@ def factorize(number):
     if (1!=number):
         factorization.append(number)
     return factorization
+    
+def factorization2power(factorization):
+    result={}
+    for factor in factorization:
+        if factor in result:
+            result[factor]+=1
+        else:
+            result[factor]=1
+    return result
