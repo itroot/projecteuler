@@ -5,6 +5,8 @@ import math
 from EratosthenesSieve import *
 
 def factorize(number):
+    if (number<2):
+        raise Exception("Can't factorize %d" % number)
     sqrtnumber=int(math.ceil(math.sqrt(number)))
     factorization=[]
     sieve=EratosthenesSieve()
