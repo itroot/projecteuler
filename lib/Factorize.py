@@ -10,7 +10,7 @@ def factorize(number):
     sqrtnumber=int(math.ceil(math.sqrt(number)))
     factorization=[]
     sieve=EratosthenesSieve()
-    sieve.growToNumber(sqrtnumber)
+    sieve.growToNumber(sqrtnumber+1)
     for prime in sieve.sieve():
         while True:
             if (0==number%prime):
