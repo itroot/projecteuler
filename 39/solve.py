@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# FIXME copy-paste from #09
+
 import math
 
 tripletSum=1000
