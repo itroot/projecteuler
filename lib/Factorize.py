@@ -4,23 +4,39 @@
 import math
 from EratosthenesSieve import *
 
+class Factorization:
+    def __init__(self):
+        self.__sieve=sieve=EratosthenesSieve()
+        self.__cache={}
+    def factorize(self, number):
+        sieve=self.__sieve
+        if (number<2):
+            raise Exception("Can't factorize %d" % number)
+        sqrtnumber=int(math.ceil(math.sqrt(number)))
+        factorization=[]
+        sieve.growToNumber(sqrtnumber+1)
+        sieve=sieve.sieve()
+        for prime in sieve:
+            while True:
+                if 1==number:
+                    break
+                elif (number in self.__cache):
+                    factorization+=self.__cache[number]
+                    number=1
+                    break
+                elif (0==number%prime):
+                    factorization.append(prime)
+                    number=number/prime
+                else:
+                    break
+        if (1!=number):
+            factorization.append(number)
+        self.__cache[number]=factorization
+        return factorization
+
 def factorize(number):
-    if (number<2):
-        raise Exception("Can't factorize %d" % number)
-    sqrtnumber=int(math.ceil(math.sqrt(number)))
-    factorization=[]
-    sieve=EratosthenesSieve()
-    sieve.growToNumber(sqrtnumber+1)
-    for prime in sieve.sieve():
-        while True:
-            if (0==number%prime):
-                factorization.append(prime)
-                number=number/prime
-            else:
-                break
-    if (1!=number):
-        factorization.append(number)
-    return factorization
+    f=Factorization()
+    return f.factorize(number)
     
 def factorization2power(factorization):
     result={}
