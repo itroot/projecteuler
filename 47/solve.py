@@ -5,8 +5,8 @@ import sys
 sys.path.append("../lib")
 from Factorize import *
 
-upperLimit=500000
-length=4
+upperLimit=1000000
+length=3
 
 class FactorizationMemoize:
     def __init__(self):

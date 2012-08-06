@@ -6,6 +6,7 @@ import math
 class EratosthenesSieve:
     def __init__(self):
         self.__sieve=[2]
+        self.__upperBound=self.__sieve[-1]
     def sieve(self):
         return self.__sieve
     def __isFactoringWithSieve(self, number):
@@ -17,8 +18,10 @@ class EratosthenesSieve:
                 return True
         return False
     def growToNumber(self, number):
-        current=self.__sieve[0]
-        while (current<number):
+        current=self.__upperBound
+        while (current<=number):
             if (not self.__isFactoringWithSieve(current)):
                 self.__sieve.append(current)
             current+=1
+        self.__upperBound=number
+

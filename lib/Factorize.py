@@ -8,7 +8,10 @@ class Factorization:
     def __init__(self):
         self.__sieve=sieve=EratosthenesSieve()
         self.__cache={}
-    def factorize(self, number):
+    def factorize(self, factoree):
+        number=factoree
+        #if 1000==number:
+        #    print self.__cache
         sieve=self.__sieve
         if (number<2):
             raise Exception("Can't factorize %d" % number)
@@ -20,18 +23,19 @@ class Factorization:
             while True:
                 if 1==number:
                     break
-                elif (number in self.__cache):
-                    factorization+=self.__cache[number]
-                    number=1
-                    break
                 elif (0==number%prime):
                     factorization.append(prime)
                     number=number/prime
+                    if (number in self.__cache):
+                        #print "Hit"
+                        factorization+=self.__cache[number]
+                        number=1
+                        break
                 else:
                     break
         if (1!=number):
             factorization.append(number)
-        self.__cache[number]=factorization
+        self.__cache[factoree]=factorization
         return factorization
 
 def factorize(number):
