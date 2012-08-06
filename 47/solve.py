@@ -5,8 +5,8 @@ import sys
 sys.path.append("../lib")
 from Factorize import *
 
-upperLimit=1000000
-length=3
+upperLimit=10000000
+length=4
 
 class FactorizationMemoize:
     def __init__(self):
@@ -23,14 +23,14 @@ class FactorizationMemoize:
 def main():
     f=FactorizationMemoize()
     for i in range(2, upperLimit):
-        if i%100==0:
-            print i
+        #if i%100==0:
+        #    print i
         numbers=range(i, i+length)
         factorizations=map(lambda e: set(f.factorize(e)), numbers)
         if not reduce(lambda a, b: a and (len(b)==length), factorizations, True):
             continue
         else:
-            print i, factorizations
+            print i#, factorizations
             break
 
 main()
