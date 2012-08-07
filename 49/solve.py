@@ -7,6 +7,8 @@ from EratosthenesSieve import *
 
 import pprint
 
+knownProgression=[1487, 4817, 8147]
+
 fourDigitsPrimes=[]
 sieve=EratosthenesSieve()
 sieve.growToNumber(10000)
@@ -61,14 +63,16 @@ def findAllProgressions(sortedList):
     return result
 
 for (uniqueSortedDigits, primeList) in uniqueSortedDigits2PrimeList.iteritems():
-    if len(uniqueSortedDigits)==4 and len(primeList)>2:
+    if len(primeList)>2:
         sortedPrimeList=sorted(primeList)
         #print sortedPrimeList
         #sortedPrimeList.append(99999999)
-        progression=findAllProgressions(sortedPrimeList)
-        if (0!=len(progression)):
-            print progression
+        progressions=findAllProgressions(sortedPrimeList)
+        if (0!=len(progressions)):
+            for progression in progressions:
+                if knownProgression!=progression:
+                    print reduce(lambda a, b: 10000*a+b, progression)
     else:
         continue
 
-#print findAllProgressions([1, 2, 3, 4, 6])
+#print findAllProgressions([1, 2, 3, 4, 6, 101, 102, 103])
