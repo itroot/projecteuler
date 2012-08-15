@@ -59,10 +59,50 @@ class Card:
     def __repr__(self):
         return self.__abbreviation
 
+def classifyHighCard(cards):
+    return tuple(["HighCard"]+sorted(map(lambda e: e.rank(), cards), reverse=True))
 
-def isFlush(cards):
+def findPairIndexInCards(cards):
+    for i in range(0, len(cards)):
+        for j in range(i+1, len(cards)):
+            if (cards[i].rank()==cards[j].rank()):
+                return (i, j)
+
+def classifyOnePair(cards):
+    pairIndexes=findPairIndexInCards(cards)
+    if pairIndexes:
+        otherCards=[]
+        for (i, card) in enumerate(cards):
+            if not i in pairIndexes:
+                otherCards.append(card)
+        return ["OnePair", cards[pairIndexes[0]].rank()]+sorted(map(lambda e: e.rank(), otherCards), reverse=True)
+    else:
+        return (None, None)
+
+def classifyTwoPairs(cards):
+    pairIndexes=findPairIndexInCards(cards)
+    if pairIndexes:
+        otherCards=[]
+        for (i, card) in enumerate(cards):
+            if not i in pairIndexes:
+                otherCards.append(card)
+        otherPairIndexes=findPairIndexInCards(otherCards)
+        if otherPairIndexes:
+            remainingCardRank=None
+            for (i, card) in enumerate(otherCards):
+                if not i in otherPairIndexes:
+                    remainingCardRank=card.rank()
+            return ["TwoPairs"]+sorted([cards[pairIndexes[0]].rank(), otherCards[otherPairIndexes[0]].rank()], reverse=True)+[remainingCardRank]
+    return (None, None)
+        
+        
+
+def classifyFlush(cards):
     suitSet=set(map(lambda e: e.suit(), cards))
-    return 1==len(suitSet)
+    if (1==len(suitSet)):
+        return ("Flush", cards[0].rank())
+    else:
+        return (None, None)
 
 
 class PokerGame:
@@ -70,8 +110,15 @@ class PokerGame:
         cardsLetters=gameLine.rstrip("\n\r").split(" ")
         self.__player1Cards=map(lambda e: Card(e), cardsLetters[0:5])
         self.__player2Cards=map(lambda e: Card(e), cardsLetters[5:])
-        if isFlush(self.__player2Cards):
+        if classifyFlush(self.__player2Cards)[0]:
             print self.__player2Cards
+            print classifyHighCard(self.__player2Cards)
+#        onePair=classifyOnePair(self.__player2Cards)
+#        if (onePair[0]):
+#            print onePair
+        twoPairs=classifyTwoPairs(self.__player2Cards)
+        if (twoPairs[0]):
+            print twoPairs, self.__player2Cards
     def classifyCombination(cards):
         pass
     def determineWinnerName(self):
