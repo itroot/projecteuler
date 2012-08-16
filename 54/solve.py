@@ -94,7 +94,20 @@ def classifyTwoPairs(cards):
                     remainingCardRank=card.rank()
             return ["TwoPairs"]+sorted([cards[pairIndexes[0]].rank(), otherCards[otherPairIndexes[0]].rank()], reverse=True)+[remainingCardRank]
     return (None, None)
-        
+
+#TODO use another classifications
+def slpitByRank(cards):
+    result={}
+    for card in cards:
+        rank=card.rank()
+        if not rank in result:
+            result[rank]=[]
+        result[rank].append(card)
+    return result
+
+def classifyThreeOfAKind(cards):
+    rankToCard=splitByRank(cards)
+    raise Exception("Implement this")
         
 
 def classifyFlush(cards):
