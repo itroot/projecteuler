@@ -23,21 +23,25 @@ for (i, letter) in enumerate(encodedAsciiText):
         letter2rate[letter]=0
     letter2rate[letter]+=1
 
-possibleTopLetters=["e", "h", "e"]
+possibleTopLetters=[" ", " ", " "]
 cypherLetterList=[]
 
 for (i, letter2rate) in enumerate(letter2RateList):
     rates=sorted(letter2rate.iteritems(), key=lambda e: e[1], reverse=True)
-    print rates
-    print
+    #print rates
+    #print
     topLetter=possibleTopLetters[i]
-    cypherLetterList.append(chr(deXor(ord(topLetter), rates[1][0])))
-print cypherLetterList
+    cypherLetterList.append(chr(deXor(ord(topLetter), rates[0][0])))
+#print cypherLetterList
 
 decodedAsciiText=[]
 for (i, letter) in enumerate(encodedAsciiText):
     decodedAsciiText.append(letter^ord(cypherLetterList[i%codeWordLength]))
 
-print "="*80
-print "".join(map(lambda e: chr(e), decodedAsciiText))
-print "="*80
+text="".join(map(lambda e: chr(e), decodedAsciiText))
+
+#print "="*80
+#print text
+#print "="*80
+
+print sum(map(lambda e: ord(e), list(text)))
