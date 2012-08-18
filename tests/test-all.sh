@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-find ../ -name solve.py | xargs -n1 -P4 ./test-solution.sh
+PROCESS_NUM=4
+
+find ../solved -name solve.py | xargs -n1 -P${PROCESS_NUM} ./test-solution.sh
