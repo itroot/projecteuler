@@ -4,8 +4,9 @@
 import sys
 sys.path.append("../lib")
 from EratosthenesSieve import *
+import math
 
-upperPrimeLimit=150000000
+upperPrimeLimit=5000000
 
 eratosthenesSieve=EratosthenesSieve()
 eratosthenesSieve.growToNumber(upperPrimeLimit)
@@ -27,12 +28,22 @@ primeNumbers=3
 totalNumbers=5
 
 while (totalNumbers/primeNumbers<10):
-    print radius, primeNumbers, totalNumbers
+    #print radius, primeNumbers, totalNumbers
     radius+=1
     numbers=getDiagonalNumbers(radius)
     for number in numbers:
-        if number in primeSet:
+        isPrime=True
+        sqrtNumberPlusOne=math.sqrt(number)+1
+        for prime in primeList:
+            if prime>=sqrtNumberPlusOne:
+                break
+            if 0==number%prime:
+                isPrime=False
+                break
+        if isPrime:
             primeNumbers+=1
         totalNumbers+=1
 
-print (2*radius-1)**2
+#print radius, primeNumbers, totalNumbers
+print 2*radius+1
+
