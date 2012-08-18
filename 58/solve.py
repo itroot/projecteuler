@@ -6,7 +6,7 @@ sys.path.append("../lib")
 from EratosthenesSieve import *
 import math
 
-upperPrimeLimit=5000000
+upperPrimeLimit=1000000
 
 eratosthenesSieve=EratosthenesSieve()
 eratosthenesSieve.growToNumber(upperPrimeLimit)
@@ -32,15 +32,7 @@ while (totalNumbers/primeNumbers<10):
     radius+=1
     numbers=getDiagonalNumbers(radius)
     for number in numbers:
-        isPrime=True
-        sqrtNumberPlusOne=math.sqrt(number)+1
-        for prime in primeList:
-            if prime>=sqrtNumberPlusOne:
-                break
-            if 0==number%prime:
-                isPrime=False
-                break
-        if isPrime:
+        if eratosthenesSieve.isPrime(number):
             primeNumbers+=1
         totalNumbers+=1
 

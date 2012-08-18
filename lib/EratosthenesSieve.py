@@ -17,7 +17,13 @@ class EratosthenesSieve:
             if (0==number%prime):
                 return True
         return False
+    def isPrime(self, number):
+        numberSqrtPlusOne=int(math.ceil(math.sqrt(number)))+1
+        self.growToNumber(numberSqrtPlusOne)
+        return not self.__isFactoringWithSieve(number)
     def growToNumber(self, number):
+        if (number<self.__upperBound):
+            return
         current=self.__upperBound
         while (current<=number):
             if (not self.__isFactoringWithSieve(current)):
