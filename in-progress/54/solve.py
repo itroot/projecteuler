@@ -152,6 +152,10 @@ def classifyFullHouse(cards):
     else:
         return (None, None)
 
+def classifyFourOfAKind(cards):
+    rankToCardIdList=splitByRank(cards)
+
+
 class PokerGame:
     def __init__(self, gameLine):
         cardsLetters=gameLine.rstrip("\n\r").split(" ")
