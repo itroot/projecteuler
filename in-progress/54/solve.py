@@ -96,18 +96,34 @@ def classifyTwoPairs(cards):
     return (None, None)
 
 #TODO use another classifications
-def slpitByRank(cards):
+def splitByRank(cards):
     result={}
-    for card in cards:
+    for (i, card) in enumerate(cards):
         rank=card.rank()
         if not rank in result:
             result[rank]=[]
-        result[rank].append(card)
+        result[rank].append(i)
     return result
 
 def classifyThreeOfAKind(cards):
-    rankToCard=splitByRank(cards)
-    raise Exception("Implement this")
+    rankToCardIdList=splitByRank(cards)
+    threeId=None
+    for (rank, cardIdList) in rankToCardIdList.iteritems():
+        if 3==len(cardIdList):
+            threeId=cardIdList
+    if None==threeId:
+        return (None, None)
+    else:
+        lastIdList=list(set(range(0, 5)).difference(set(threeId)))
+        lastCards=map(lambda e: cards[e].rank(), lastIdList)
+        sortedLastCards=sorted(lastCards, reverse=True)
+        return ("ThreeOfAKind", cards[threeId[0]].rank(), sortedLastCards)
+
+
+
+
+    
+    
         
 
 def classifyFlush(cards):
@@ -129,9 +145,12 @@ class PokerGame:
 #        onePair=classifyOnePair(self.__player2Cards)
 #        if (onePair[0]):
 #            print onePair
-        twoPairs=classifyTwoPairs(self.__player2Cards)
-        if (twoPairs[0]):
-            print twoPairs, self.__player2Cards
+#        twoPairs=classifyTwoPairs(self.__player2Cards)
+#        if (twoPairs[0]):
+#            print twoPairs, self.__player2Cards
+        threeOfAKind=classifyThreeOfAKind(self.__player2Cards)
+        if (threeOfAKind[0]):
+            print threeOfAKind, self.__player2Cards
     def classifyCombination(cards):
         pass
     def determineWinnerName(self):
