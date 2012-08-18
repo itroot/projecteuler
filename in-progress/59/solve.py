@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: utf-9 -*-
 
 # http://en.wikipedia.org/wiki/Letter_frequency
 
@@ -23,14 +23,15 @@ for (i, letter) in enumerate(encodedAsciiText):
         letter2rate[letter]=0
     letter2rate[letter]+=1
 
-possibleTopLetters=["e", "e", "e"]
+possibleTopLetters=["e", "h", "e"]
 cypherLetterList=[]
 
 for (i, letter2rate) in enumerate(letter2RateList):
     rates=sorted(letter2rate.iteritems(), key=lambda e: e[1], reverse=True)
     print rates
+    print
     topLetter=possibleTopLetters[i]
-    cypherLetterList.append(chr(deXor(ord(topLetter), rates[0][1])))
+    cypherLetterList.append(chr(deXor(ord(topLetter), rates[1][0])))
 print cypherLetterList
 
 decodedAsciiText=[]
