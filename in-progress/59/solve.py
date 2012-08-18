@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-9 -*-
+# -*- coding: utf-8 -*-
 
 # http://en.wikipedia.org/wiki/Letter_frequency
 
