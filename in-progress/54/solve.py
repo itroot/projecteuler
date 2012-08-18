@@ -23,6 +23,8 @@ def generateLetter2Rank():
 
 letter2rank=generateLetter2Rank()
 
+#print letter2rank
+
 def generateCombination2Rank():
     combinationNames=[
       "HighCard"
@@ -119,12 +121,19 @@ def classifyThreeOfAKind(cards):
         sortedLastCards=sorted(lastCards, reverse=True)
         return ("ThreeOfAKind", cards[threeId[0]].rank(), sortedLastCards)
 
+def classifyStraight(cards):
+    cardRankList=map(lambda e: e.rank(), cards)
+    sortedRankList=sorted(cardRankList)
+    startRank=sortedRankList[0]
+    stopRank=startRank+5
+    if range(startRank, stopRank)==sortedRankList:
+        #print sortedRankList, cardRankList, cards
+        return ("Straight", [startRank])
+    else:
+        return (None, None)
 
-
-
-    
-    
-        
+#straightCards=map(lambda e: Card(e), ["2S", "3S", "4D", "5S", "6S"]
+#print ">>>", classifyStraight(straightCards), straightCards
 
 def classifyFlush(cards):
     suitSet=set(map(lambda e: e.suit(), cards))
@@ -133,24 +142,39 @@ def classifyFlush(cards):
     else:
         return (None, None)
 
+def classifyFullHouse(cards):
+    threeOfAKind=classifyThreeOfAKind(cards)
+    if (None!=threeOfAKind[0]):
+        if (threeOfAKind[2][0]==threeOfAKind[2][1]):
+            return("FullHouse", (threeOfAKind[2][0]))
+        else:
+            return (None, None)
+    else:
+        return (None, None)
 
 class PokerGame:
     def __init__(self, gameLine):
         cardsLetters=gameLine.rstrip("\n\r").split(" ")
         self.__player1Cards=map(lambda e: Card(e), cardsLetters[0:5])
         self.__player2Cards=map(lambda e: Card(e), cardsLetters[5:])
-        if classifyFlush(self.__player2Cards)[0]:
-            print self.__player2Cards
-            print classifyHighCard(self.__player2Cards)
+#        if classifyFlush(self.__player2Cards)[0]:
+#            print self.__player2Cards
+#            print classifyHighCard(self.__player2Cards)
 #        onePair=classifyOnePair(self.__player2Cards)
 #        if (onePair[0]):
 #            print onePair
 #        twoPairs=classifyTwoPairs(self.__player2Cards)
 #        if (twoPairs[0]):
 #            print twoPairs, self.__player2Cards
-        threeOfAKind=classifyThreeOfAKind(self.__player2Cards)
-        if (threeOfAKind[0]):
-            print threeOfAKind, self.__player2Cards
+#        threeOfAKind=classifyThreeOfAKind(self.__player2Cards)
+#        if (threeOfAKind[0]):
+#            print threeOfAKind, self.__player2Cards
+        fullHouse=classifyFullHouse(self.__player2Cards)
+        if (fullHouse[0]):
+            print fullHouse, self.__player2Cards
+#        straight=classifyStraight(self.__player2Cards)
+#        if (straight[0]):
+#            print straight, self.__player2Cards
     def classifyCombination(cards):
         pass
     def determineWinnerName(self):
