@@ -154,7 +154,32 @@ def classifyFullHouse(cards):
 
 def classifyFourOfAKind(cards):
     rankToCardIdList=splitByRank(cards)
+    fourId=None
+    for (rank, cardIdList) in rankToCardIdList.iteritems():
+        if 4==len(cardIdList):
+            fourId=cardIdList
+    if None==fourId:
+        return (None, None)
+    lastId=list(set(range(0, 5)).difference(set(fourId)))[0]
+    return ("FourOfAKind", cards[fourId[0]].rank(), cards[lastId].rank())
 
+#fourOfAKind=map(lambda e: Card(e), ["2S", "2S", "2D", "2S", "6S"])
+#print ">>>", classifyFourOfAKind(fourOfAKind), fourOfAKind
+
+def classifyStraightFlush(cards):
+    straight=classifyStraight(cards)
+    flush=classifyFlush(cards)
+    if None!=straight[0] and None!=flush[0]:
+        return ("StraightFlush", straight[1])
+    else:
+        return (None, None)
+
+def classifyRoyalFlush(cards):
+    straightFlush=classifyStraightFlush(cards)
+    if None!=straightFlush[0] and 10==straightFlush[0][1]:
+        return ("RoyalFlush")
+    else:
+        return (None, None)
 
 class PokerGame:
     def __init__(self, gameLine):
@@ -173,9 +198,12 @@ class PokerGame:
 #        threeOfAKind=classifyThreeOfAKind(self.__player2Cards)
 #        if (threeOfAKind[0]):
 #            print threeOfAKind, self.__player2Cards
-        fullHouse=classifyFullHouse(self.__player2Cards)
-        if (fullHouse[0]):
-            print fullHouse, self.__player2Cards
+#        fullHouse=classifyFullHouse(self.__player2Cards)
+#        if (fullHouse[0]):
+#            print fullHouse, self.__player2Cards
+        fourOfAKind=classifyFourOfAKind(self.__player1Cards)
+        if (fourOfAKind[0]):
+            print fourOfAKind, self.__player1Cards
 #        straight=classifyStraight(self.__player2Cards)
 #        if (straight[0]):
 #            print straight, self.__player2Cards
