@@ -15,16 +15,21 @@ primeList=eratosthenesSieve.sieve()
 primeSet=set(primeList)
 
 result=[]
-result.append(filter(lambda e: e<upperLimit, primeList))
-result.append([])
+primeListLimited=filter(lambda e: e<upperLimit, primeList)
 
-for i in range(0, len(result[0])):
+remarkableListList=[]
+
+#for prime in primeListLimited:
+#    for remarkableList in remarkableListList:
+
+
+for i in range(0, len(primeListLimited)):
     for j in range(0, i):
-        first=result[0][i]
-        second=result[0][j]
+        first=primeListLimited[i]
+        second=primeListLimited[j]
         firstSecond=int(str(first)+str(second))
         secondFirst=int(str(second)+str(first))
         if (firstSecond in primeSet and secondFirst in primeSet):
-            result[1].append((first, second))
+            result.append((first, second))
 print result
 
