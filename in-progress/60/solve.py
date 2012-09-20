@@ -6,23 +6,20 @@ sys.path.append("../lib")
 from EratosthenesSieve import *
 
 
-upperLimit=10**3
-upperLimitSquare=upperLimit**2
+upperLimit=10**6
 
 eratosthenesSieve=EratosthenesSieve()
-eratosthenesSieve.growToNumber(upperLimitSquare)
+eratosthenesSieve.growToNumber(upperLimit)
 primeList=eratosthenesSieve.sieve()
 primeSet=set(primeList)
-
-result=[]
-primeListLimited=filter(lambda e: e<upperLimit, primeList)
 
 remarkableListList=[]
 
 def isRemarkable(first, second):
    firstSecond=int(str(first)+str(second))
    secondFirst=int(str(second)+str(first))
-   return firstSecond in primeSet and secondFirst in primeSet
+   sieve=eratosthenesSieve
+   return sieve.isPrime(firstSecond) and sieve.isPrime(secondFirst)
 
 def isRemarkableAtList(prime, remarkableList):
     for otherPrime in remarkableList:
@@ -30,7 +27,7 @@ def isRemarkableAtList(prime, remarkableList):
             return False
     return True
 
-for prime in primeListLimited:
+for prime in primeList:
     for remarkableList in remarkableListList:
         if (isRemarkableAtList(prime, remarkableList)):
             remarkableList.append(prime)
@@ -38,4 +35,5 @@ for prime in primeListLimited:
         remarkableListList.append([prime])
 
 print filter(lambda e: len(e)>3, remarkableListList)
-
+print
+print filter(lambda e: len(e)>4, remarkableListList)
