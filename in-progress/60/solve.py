@@ -4,15 +4,15 @@
 import sys
 sys.path.append("../lib")
 from EratosthenesSieve import *
+import copy
 
-
-upperLimit=10**6
+upperLimit=(10**3)+100
 
 eratosthenesSieve=EratosthenesSieve()
 eratosthenesSieve.growToNumber(upperLimit)
-primeList=eratosthenesSieve.sieve()
+primeList=copy.copy(eratosthenesSieve.sieve())
 primeSet=set(primeList)
-
+print primeList
 remarkableListList=[]
 
 def isRemarkable(first, second):
@@ -28,12 +28,18 @@ def isRemarkableAtList(prime, remarkableList):
     return True
 
 for prime in primeList:
+    print prime, len(remarkableListList), filter(lambda e: len(e)>3, remarkableListList)
     for remarkableList in remarkableListList:
         if (isRemarkableAtList(prime, remarkableList)):
-            remarkableList.append(prime)
-    if prime<100:
-        remarkableListList.append([prime])
+            remarkableListNew=copy.copy(remarkableList)
+            remarkableListNew.append(prime)
+            remarkableListList.append(remarkableListNew)
+    #if prime<100:
+    remarkableListList.append([prime])
 
 print filter(lambda e: len(e)>3, remarkableListList)
 print
 print filter(lambda e: len(e)>4, remarkableListList)
+#print
+#print remarkableListList
+
