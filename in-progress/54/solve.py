@@ -181,6 +181,9 @@ def classifyRoyalFlush(cards):
     else:
         return (None, None)
 
+def classifyCombination(cards):
+    pass
+
 class PokerGame:
     def __init__(self, gameLine):
         cardsLetters=gameLine.rstrip("\n\r").split(" ")
