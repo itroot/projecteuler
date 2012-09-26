@@ -21,25 +21,15 @@ def isRemarkable(first, second):
    sieve=eratosthenesSieve
    return sieve.isPrime(firstSecond) and sieve.isPrime(secondFirst)
 
-def isRemarkableAtList(prime, remarkableList):
-    for otherPrime in remarkableList:
-        if not isRemarkable(prime, otherPrime):
-            return False
-    return True
+remarkableList=[]
 
-for prime in primeList:
-    print prime, len(remarkableListList), filter(lambda e: len(e)>3, remarkableListList)
-    for remarkableList in remarkableListList:
-        if (isRemarkableAtList(prime, remarkableList)):
-            remarkableListNew=copy.copy(remarkableList)
-            remarkableListNew.append(prime)
-            remarkableListList.append(remarkableListNew)
-    #if prime<100:
-    remarkableListList.append([prime])
-
-print filter(lambda e: len(e)>3, remarkableListList)
-print
-print filter(lambda e: len(e)>4, remarkableListList)
-#print
-#print remarkableListList
+primeCount=len(primeList)
+for i in range(0, primeCount):
+    for j in range(i, primeCount):
+        primeI=primeList[i]
+        primeJ=primeList[j]
+        if isRemarkable(primeI, primeJ):
+            remarkableList.append((primeI, primeJ))
+            #print i, j
+print remarkableList
 
