@@ -33,3 +33,14 @@ for i in range(0, primeCount):
             #print i, j
 print remarkableList
 
+from collections import defaultdict
+import pprint
+
+graph=defaultdict(set)
+for remarkable in remarkableList:
+    (first, second)=remarkable
+    graph[first].add(second)
+    graph[second].add(first)
+    
+pprint.pprint(graph)
+
