@@ -182,7 +182,20 @@ def classifyRoyalFlush(cards):
         return (None, None)
 
 def classifyCombination(cards):
-    pass
+    nameClassifierTuple=[
+        ("HighCard", classifyHighCard),
+        ("OnePair", classifyOnePair),
+        ("TwoPairs", classifyTwoPairs),
+        ("ThreeOfAKind", classifyThreeOfAKind),
+        ("Straight", classifyStraight),
+        ("Flush", classifyFlush),
+        ("FullHouse", classifyFullHouse),
+        ("FourOfAKind", classifyFourOfAKind),
+        ("StraightFlush", classifyStraightFlush),
+        ("RoyalFlush", classifyRoyalFlush),
+    ]
+    for (name, classifier) in nameClassifierTuple:
+        pass # continue here
 
 class PokerGame:
     def __init__(self, gameLine):
