@@ -61,9 +61,6 @@ class Card:
     def __repr__(self):
         return self.__abbreviation
 
-def classifyHighCard(cards):
-    return tuple(["HighCard"]+sorted(map(lambda e: e.rank(), cards), reverse=True))
-
 def findPairIndexInCards(cards):
     for i in range(0, len(cards)):
         for j in range(i+1, len(cards)):

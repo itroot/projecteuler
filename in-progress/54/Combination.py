@@ -4,6 +4,6 @@
 class Combination:
     def __init__(self):
         pass
-    def classify(self):
+    def classify(self, cards):
         pass
 
