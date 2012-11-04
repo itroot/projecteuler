@@ -1,5 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+from Combination import *
 
 class HighCard(Combination):
     def __init__(self):

@@ -1,5 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+from UnsortedFunctionality import *
 
 class Combination:
     def __init__(self):
