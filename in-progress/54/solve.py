@@ -12,17 +12,6 @@ combination2rank=generateCombination2Rank()
 #print letter2rank
 #print combination2rank
 
-def classifyOnePair(cards):
-    pairIndexes=findPairIndexInCards(cards)
-    if pairIndexes:
-        otherCards=[]
-        for (i, card) in enumerate(cards):
-            if not i in pairIndexes:
-                otherCards.append(card)
-        return ["OnePair", cards[pairIndexes[0]].rank()]+sorted(map(lambda e: e.rank(), otherCards), reverse=True)
-    else:
-        return (None, None)
-
 def classifyTwoPairs(cards):
     pairIndexes=findPairIndexInCards(cards)
     if pairIndexes:
