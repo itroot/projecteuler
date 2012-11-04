@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from HighCard import *
+from OnePair import *
 
 letter2suit=generateLetter2Suit()
 letter2rank=generateLetter2Rank()
@@ -10,12 +11,6 @@ combination2rank=generateCombination2Rank()
 #print letter2suit
 #print letter2rank
 #print combination2rank
-
-def findPairIndexInCards(cards):
-    for i in range(0, len(cards)):
-        for j in range(i+1, len(cards)):
-            if (cards[i].rank()==cards[j].rank()):
-                return (i, j)
 
 def classifyOnePair(cards):
     pairIndexes=findPairIndexInCards(cards)
