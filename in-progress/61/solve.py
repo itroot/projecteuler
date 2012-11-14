@@ -9,9 +9,9 @@ sequences=[
     TriangleNumber(),
     SquareNumber(),
     PentagonalNumber(),
-    HexagonalNumber(),
-    HeptagonalNumber(),
-    OctagonalNumber(),
+#    HexagonalNumber(),
+#    HeptagonalNumber(),
+#    OctagonalNumber(),
 ]
 
 def get4DigitNumbersList():
@@ -30,4 +30,11 @@ def get4DigitNumbersList():
     return result
 
 sequenceNumberCollectionList=get4DigitNumbersList()
-print sequenceNumberCollectionList
+
+def findCycle(sequenceNumberCollectionList, cycleFound=[]):
+    print sequenceNumberCollectionList
+    for sequenceNumberCollection in sequenceNumberCollectionList:
+        for number in sequenceNumberCollection:
+            pass
+
+findCycle(sequenceNumberCollectionList)
