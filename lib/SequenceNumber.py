@@ -13,6 +13,11 @@ class TriangleNumber(SequenceNumber):
         n=self.n()
         return n*(n+1)/2
 
+class SquareNumber(SequenceNumber):
+    def generate(self):
+        n=self.n()
+        return n**2
+
 class PentagonalNumber(SequenceNumber):
     def generate(self):
         n=self.n()
@@ -23,3 +28,12 @@ class HexagonalNumber(SequenceNumber):
         n=self.n()
         return n*(2*n-1)
 
+class HeptagonalNumber(SequenceNumber):
+    def generate(self):
+        n=self.n()
+        return n*(5*n-3)/2
+
+class OctagonalNumber(SequenceNumber):
+    def generate(self):
+        n=self.n()
+        return n*(3*n-2)
