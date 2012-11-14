@@ -9,9 +9,9 @@ sequences=[
     TriangleNumber(),
     SquareNumber(),
     PentagonalNumber(),
-#    HexagonalNumber(),
-#    HeptagonalNumber(),
-#    OctagonalNumber(),
+    HexagonalNumber(),
+    HeptagonalNumber(),
+    OctagonalNumber(),
 ]
 
 def get4DigitNumbersList():
@@ -32,9 +32,14 @@ def get4DigitNumbersList():
 sequenceNumberCollectionList=get4DigitNumbersList()
 
 def findCycle(sequenceNumberCollectionList, cycleFound=[]):
-    print sequenceNumberCollectionList
-    for sequenceNumberCollection in sequenceNumberCollectionList:
+    length=len(sequenceNumberCollectionList)
+    if (0==length) and (str(cycleFound[-1])[-2:]==str(cycleFound[0])[0:2]):
+        print sum(cycleFound)
+        return True
+    for (i, sequenceNumberCollection) in enumerate(sequenceNumberCollectionList):
         for number in sequenceNumberCollection:
-            pass
+            if 0==len(cycleFound) or str(cycleFound[-1])[-2:]==str(number)[0:2]:
+                if findCycle(sequenceNumberCollectionList[0:i]+sequenceNumberCollectionList[i+1:], cycleFound+[number]):
+                    return True
 
 findCycle(sequenceNumberCollectionList)
