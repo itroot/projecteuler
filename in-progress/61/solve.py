@@ -29,4 +29,5 @@ def get4DigitNumbersList():
         result.append(numbers)
     return result
 
-print get4DigitNumbersList()
+sequenceNumberCollectionList=get4DigitNumbersList()
+print sequenceNumberCollectionList
