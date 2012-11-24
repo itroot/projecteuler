@@ -24,7 +24,7 @@ def nextLevel(fractionLevel):
     d=kd.denominator
     return FractionLevel(a, k, b, d, f.number)
 
-def calculateSquareFraction(number):
+def calculateSquareFractionNotation(number):
     fractionLevel=FractionLevel(0, 1, 0, 1, number)
     levels=[]
     while True:
@@ -37,3 +37,11 @@ def calculateSquareFraction(number):
             return (prefix, period)
         else:
             levels.append(fractionLevel)
+
+
+def calculateFraction(prefix):
+    if (1==len(prefix)):
+        return Fraction(prefix[0], 1)
+    denominator=calculateFraction(prefix[1:])
+    fraction=prefix[0]+Fraction(denominator.denominator, denominator.numerator)
+    return fraction
