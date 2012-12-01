@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from fractions import Fraction
+import sys
+sys.path.append("../lib")
+from Factorize import *
 
 def generateLevel(number):
     result=[]
@@ -15,7 +18,13 @@ def generate(upperBound):
         result+=generateLevel(i)
     return sorted(list(set(result)))
 
-for i in range(2, 30):
+for i in range(2, 20):
     result=generate(i)
     #print result
-    print i, len(result)
+    #print i, len(result)
+
+upperLimit=10**6
+f=Factorization()
+
+f.factorize(upperLimit)
+print sum(f.eulerTotient(j) for j in range(2, upperLimit+1))

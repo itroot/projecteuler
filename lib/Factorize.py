@@ -7,6 +7,17 @@ class Factorization:
     def __init__(self):
         self.__sieve=sieve=EratosthenesSieve()
         self.__cache={}
+    def eulerTotient(self, number):
+        result=1
+        factorization=self.factorize(number)
+        previousFactor=0
+        for factor in factorization:
+            if factor==previousFactor:
+                result*=factor
+            else:
+                result*=(factor-1)
+            previousFactor=factor
+        return result
     def factorize(self, factoree):
         number=factoree
         #if 1000==number:

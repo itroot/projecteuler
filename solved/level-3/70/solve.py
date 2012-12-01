@@ -33,18 +33,4 @@ for prime1 in primeList:
 
 results=sorted(results, key=lambda e: e[2])
 print results[0][0]
-sys.exit(0)
 
-
-def eulerTotient(number):
-    factorization=factorize(number)
-    uniquePrimeList=list(set(factorization))
-    return reduce(lambda a, b: a*(b-1), uniquePrimeList, 1)
-
-print eulerTotient(87109)
-
-for number in range(2, 10**5):
-    phi=eulerTotient(number)
-    if hashSort(number)==hashSort(phi):
-        print number, phi, number/(1.0*phi), factorize(number)
-    
