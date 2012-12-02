@@ -9,5 +9,5 @@ upperLimit=12000
 
 
 f=Factorization()
-print f.eulerTotient(8)
-print sum(f.eulerTotient(i) for i in range(2, 9))
+print f.eulerTotient(upperLimit+1)
+print "Before 1/2: ", (sum(f.eulerTotient(i) for i in range(2, upperLimit+1))-1)/2
