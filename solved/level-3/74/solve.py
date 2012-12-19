@@ -20,14 +20,14 @@ def nextInChain(number):
         precomputedNumbers[number]=result
         return result
 
-def constructChain(number):
+def constructChainLen(number):
     sequence=[]
     numberToIndex={}
     while True:
         if number in numberToIndex:
             index=numberToIndex[number]
-            return (sequence[:index], sequence[index:])
-            #return len(sequence)
+            #return (sequence[:index], sequence[index:])
+            return len(sequence)
         else:
             sequence.append(number)
             numberToIndex[number]=len(sequence)
@@ -35,9 +35,11 @@ def constructChain(number):
 
 result=0
 for i in range(1, upperLimit):
-    chain=constructChain(i)
-    nonRepeatingItemsCount=len(chain[0])+len(chain[1])
-    if (60==nonRepeatingItemsCount):
+    chainLen=constructChainLen(i)
+    #nonRepeatingItemsCount=len(chain[0])+len(chain[1])
+    if (60==chainLen):
         result+=1
-    if (0==i%10000):
-        print i, result
+    #if (0==i%10000):
+    #    print i, result
+
+print result
