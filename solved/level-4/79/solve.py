@@ -22,3 +22,21 @@ def generateDotDigraph(edgeList):
     processHandle.wait()
 
 generateDotDigraph(edges)
+
+def hackySolution(edgeList):
+    import collections
+    result=[]
+    while 0!=len(edgeList):
+        allSet=set()
+        referencedSet=set()
+        for (first, second) in edgeList:
+            allSet.add(first)
+            allSet.add(first)
+            referencedSet.add(second)
+        independentSet=allSet.difference(referencedSet)
+        result+=list(independentSet)
+        tail=list(set(map(lambda e: e[1], edgeList)))
+        edgeList=filter(lambda (first, second): not first in independentSet , edgeList)
+    return result+tail
+
+print "".join(hackySolution(edges))
