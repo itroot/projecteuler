@@ -31,21 +31,21 @@ def traverseCondition(pairMN):
     return result
 
 traverse(pairMN, traverseCondition)
-
-def uniqifyFactor(lengthList):
-    uniqueList=[]
-    for number in lengthList:
-        isUnique=True
-        for uniqueNumber in uniqueList:
-            if 2*uniqueNumber>number:
-                break
-            if number%uniqueNumber==0:
-                isUnique=False
-                break
-        if isUnique:
-            uniqueList.append(number)
-    return uniqueList
-
 lengthList=sorted(map(lambda e: sum(e), allTriples))
-uniqueLengthList=uniqifyFactor(lengthList)
-print len(uniqueLengthList)
+
+def generateSet(number):
+    result=set()
+    for i in range(0, maxWireLength/number):
+        result.add((i+1)*number)
+    #print result
+    return result
+
+result=set()
+compromised=set()
+
+for length in lengthList:
+    newSet=generateSet(length)
+    newSet=newSet-compromised
+    compromised|=newSet&result
+    result^=newSet
+print len(result)
