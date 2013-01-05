@@ -28,5 +28,10 @@ def P(n, k):
 def partitions(n):
     return P(n, n)
 
-for i in range(1, 101):
-    print i, partitions(i)
+for i in range(1, 10000):
+    for k in range(1, i):
+        P(i, k)
+    result=partitions(i)
+    print i, result
+    if result%10**6==0:
+        break
