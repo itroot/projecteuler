@@ -7,6 +7,25 @@ http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B1%D0%B8%D0%B5%D0%BD%D0%B8%D0
 
 import math
 
+upperLimit=1001
+table=[[1]]
+for n in range(1, upperLimit):
+    table.append([0])
+    for k in range(1, n+1):
+            currentList=table[n]
+            addendFirst=currentList[k-1]
+            addendSecond=None
+            if (n-k<k):
+                addendSecond=table[n-k][n-k]
+            else:
+                addendSecond=table[n-k][k]
+            currentList.append(addendFirst+addendSecond)
+
+print map(lambda e: e[-1:], table)
+
+import sys
+sys.exit(0)
+
 cache={}
 
 def P(n, k):
