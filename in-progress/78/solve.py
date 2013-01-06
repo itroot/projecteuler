@@ -7,7 +7,7 @@ http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B1%D0%B8%D0%B5%D0%BD%D0%B8%D0
 
 import math
 
-upperLimit=1001
+upperLimit=10101
 table=[[1]]
 for n in range(1, upperLimit):
     table.append([0])
@@ -19,9 +19,14 @@ for n in range(1, upperLimit):
                 addendSecond=table[n-k][n-k]
             else:
                 addendSecond=table[n-k][k]
-            currentList.append(addendFirst+addendSecond)
+            currentList.append((addendFirst+addendSecond)%10**6)
+    number=table[n][n]
+    print n
+    if number%10**6==0:
+        print number
+        break
 
-print map(lambda e: e[-1:], table)
+#print map(lambda e: e[-1:], table)
 
 import sys
 sys.exit(0)
