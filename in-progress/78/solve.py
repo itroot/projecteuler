@@ -2,60 +2,40 @@
 # -*- coding: utf-8 -*-
 
 """
-http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%B1%D0%B8%D0%B5%D0%BD%D0%B8%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B0#.D0.A0.D0.B5.D0.BA.D1.83.D1.80.D1.80.D0.B5.D0.BD.D1.82.D0.BD.D1.8B.D0.B5_.D1.84.D0.BE.D1.80.D0.BC.D1.83.D0.BB.D1.8B
+http://en.wikipedia.org/wiki/Partition_(number_theory)#Generating_function
 """
 
-import math
+def pentagonal(n):
+    return n*(3*n-1)/2
 
-upperLimit=10101
-table=[[1]]
-for n in range(1, upperLimit):
-    table.append([0])
-    for k in range(1, n+1):
-            currentList=table[n]
-            addendFirst=currentList[k-1]
-            addendSecond=None
-            if (n-k<k):
-                addendSecond=table[n-k][n-k]
-            else:
-                addendSecond=table[n-k][k]
-            currentList.append((addendFirst+addendSecond)%10**6)
-    number=table[n][n]
-    print n
-    if number%10**6==0:
-        print number
-        break
+cache=[1]
 
-#print map(lambda e: e[-1:], table)
-
-import sys
-sys.exit(0)
-
-cache={}
-
-def P(n, k):
-    if n==0 and k==0:
-        return 1
-    elif k==0:
-        return 0
+def p(n):
+    result=0
+    if n<0:
+        pass
+    elif n==0:
+        result=1
     else:
-        kn=(k, n)
-        if kn in cache:
-            return cache[kn]
-        if k<=n:
-            result=P(n-k, k)+P(n, k-1)
-        else:
-            result=P(n, n)
-        cache[kn]=result
-        return result
+        k=0
+        while True:
+            value=k/2+1
+            sign=(-1)**(k)
+            shift=pentagonal(sign*value)
+            rshift=n-shift
+            if rshift<0:
+                break
+            else:
+                result+=(-1)**(k/2)*cache[rshift]
+            k+=1
+    return result
 
-def partitions(n):
-    return P(n, n)
-
-for i in range(1, 10000):
-    for k in range(1, i):
-        P(i, k)
-    result=partitions(i)
-    print i, result
-    if result%10**6==0:
+for i in range(1, 1000000):
+    #print i
+    number=p(i)
+    delimiter=10**6
+    cache.append(number)
+    if number%delimiter==0:
+        print i
         break
+
