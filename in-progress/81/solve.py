@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pprint
+from collections import defaultdict
 
 def loadMatrix(fileName):
     data=open(fileName).read()
@@ -20,6 +21,16 @@ def convertMatrixToGraph(matrix, down=True, right=True):
                 edges.append(((i, j), (i, j+1), matrix[i][j+1]))
     return (vertices, edges)
 
+def shortestPath(graph, startVertice, endVertice):
+    (vertices, edges)=graph
+    adjacencyListMap=defaultdict(list)
+    for edge in edges:
+        (source, sink, weight)=edge
+        adjacencyListMap[source].append(sink)
+    print adjacencyListMap
+
 matrix=loadMatrix("matrix-test.txt")
 graph=convertMatrixToGraph(matrix)
-pprint.pprint(graph)
+lastIndex=len(matrix)-1
+path=shortestPath(graph, (0, 0), (lastIndex, lastIndex))
+pprint.pprint(path)
