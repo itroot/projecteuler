@@ -8,11 +8,11 @@ int main()
     const unsigned int upperLimit=101010;
     Table table;
     table.push_back(Row());
-    table[0].push_back(0);
+    table[0].push_back(1);
     table.reserve(upperLimit);
     for (unsigned int n=1; n!=upperLimit; ++n) {
         Row row;
-        row.push_back(1);
+        row.push_back(0);
         table.push_back(row);
         table.back().reserve(n);
         for (unsigned int k=1; k<=n; ++k) {
