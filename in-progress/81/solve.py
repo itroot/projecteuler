@@ -37,7 +37,7 @@ def shortestPath(graph, startVertice, endVertice, startWeight):
         verticeToDistance[vertice]=distance
         heapq.heappush(heap, (distance, vertice))
     while not 0==len(verticeSet):
-        (distance, vertice)=heapq.heappop(heap)
+        (_, vertice)=heapq.heappop(heap)
         if not vertice in verticeSet:
             continue
         distance=verticeToDistance[vertice]
