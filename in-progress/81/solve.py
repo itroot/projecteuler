@@ -3,6 +3,7 @@
 
 import pprint
 from collections import defaultdict
+import heapq # avoid changing old entries
 
 def loadMatrix(fileName):
     data=open(fileName).read()
@@ -21,7 +22,7 @@ def convertMatrixToGraph(matrix, down=True, right=True):
                 edges.append(((i, j), (i, j+1), matrix[i][j+1]))
     return (vertices, edges)
 
-def shortestPath(graph, startVertice, endVertice):
+def shortestPath(graph, startVertice, endVertice, startWeight):
     (vertices, edges)=graph
     adjacencyListMap=defaultdict(list)
     for edge in edges:
@@ -29,11 +30,16 @@ def shortestPath(graph, startVertice, endVertice):
         adjacencyListMap[source].append((sink, weight))
     #print adjacencyListMap
     verticeToDistance={}
+    heap=[]
     verticeSet=set(vertices)
     for vertice in vertices:
-        verticeToDistance[vertice]=0 if vertice==startVertice else float("inf")
+        distance=0 if vertice==startVertice else float("inf")
+        verticeToDistance[vertice]=distance
+        heapq.heappush(heap, (distance, vertice))
     while not 0==len(verticeSet):
-        vertice=min(verticeSet, key=lambda e: verticeToDistance[e])
+        (distance, vertice)=heapq.heappop(heap)
+        if not vertice in verticeSet:
+            continue
         distance=verticeToDistance[vertice]
         adjacentVerticeList=adjacencyListMap[vertice]
         for (adjacentVertice, weight) in adjacentVerticeList:
@@ -41,12 +47,13 @@ def shortestPath(graph, startVertice, endVertice):
             possibleDistance=distance+weight
             if (possibleDistance<adjacentDistance):
                 verticeToDistance[adjacentVertice]=possibleDistance
+                heapq.heappush(heap, (possibleDistance, adjacentVertice))
         verticeSet.remove(vertice)
     #print verticeToDistance
-    return verticeToDistance[endVertice]
+    return verticeToDistance[endVertice]+startWeight
 
-matrix=loadMatrix("matrix-test.txt")
+matrix=loadMatrix("matrix.txt")
 graph=convertMatrixToGraph(matrix)
 lastIndex=len(matrix)-1
-distance=shortestPath(graph, (0, 0), (lastIndex, lastIndex))
-pprint.pprint(distance+matrix[0][0])
+distance=shortestPath(graph, (0, 0), (lastIndex, lastIndex), matrix[0][0])
+pprint.pprint(distance)
