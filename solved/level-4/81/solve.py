@@ -24,6 +24,7 @@ def convertMatrixToGraph(matrix, down=True, right=True):
 
 def shortestPath(graph, startVertice, endVertice, startWeight):
     (vertices, edges)=graph
+    previousVerticeMap={}
     adjacencyListMap=defaultdict(list)
     for edge in edges:
         (source, sink, weight)=edge
@@ -50,14 +51,23 @@ def shortestPath(graph, startVertice, endVertice, startWeight):
             if (possibleDistance<adjacentDistance):
                 verticeToDistance[adjacentVertice]=possibleDistance
                 heapq.heappush(heap, (possibleDistance, adjacentVertice))
+                previousVerticeMap[adjacentVertice]=vertice
             if adjacentVertice==endVertice:
                 break
         verticeSet.remove(vertice)
     #print verticeToDistance
-    return verticeToDistance[endVertice]+startWeight
+    def getPath(previousVerticeMap, vertice):
+        path=[]
+        while (vertice in previousVerticeMap):
+            path.append(vertice)
+            vertice=previousVerticeMap[vertice]
+        path.append(startVertice)
+        return path[::-1]
+    return (verticeToDistance[endVertice]+startWeight, getPath(previousVerticeMap, endVertice))
 
 matrix=loadMatrix("matrix.txt")
 graph=convertMatrixToGraph(matrix)
-lastIndex=1#len(matrix)-1
-distance=shortestPath(graph, (0, 0), (lastIndex, lastIndex), matrix[0][0])
+lastIndex=len(matrix)-1
+result=shortestPath(graph, (0, 0), (lastIndex, lastIndex), matrix[0][0])
+(distance, path)=result
 pprint.pprint(distance)
