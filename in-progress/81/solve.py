@@ -6,7 +6,7 @@ from collections import defaultdict
 
 def loadMatrix(fileName):
     data=open(fileName).read()
-    return map(lambda e: e.split(" "), data.strip("\n").split("\n"))
+    return map(lambda e: map(lambda e: int(e), e.split(",")), data.strip("\n").split("\n"))
 
 def convertMatrixToGraph(matrix, down=True, right=True):
     vertices=[]
@@ -26,11 +26,27 @@ def shortestPath(graph, startVertice, endVertice):
     adjacencyListMap=defaultdict(list)
     for edge in edges:
         (source, sink, weight)=edge
-        adjacencyListMap[source].append(sink)
-    print adjacencyListMap
+        adjacencyListMap[source].append((sink, weight))
+    #print adjacencyListMap
+    verticeToDistance={}
+    verticeSet=set(vertices)
+    for vertice in vertices:
+        verticeToDistance[vertice]=0 if vertice==startVertice else float("inf")
+    while not 0==len(verticeSet):
+        vertice=min(verticeSet, key=lambda e: verticeToDistance[e])
+        distance=verticeToDistance[vertice]
+        adjacentVerticeList=adjacencyListMap[vertice]
+        for (adjacentVertice, weight) in adjacentVerticeList:
+            adjacentDistance=verticeToDistance[adjacentVertice]
+            possibleDistance=distance+weight
+            if (possibleDistance<adjacentDistance):
+                verticeToDistance[adjacentVertice]=possibleDistance
+        verticeSet.remove(vertice)
+    #print verticeToDistance
+    return verticeToDistance[endVertice]
 
 matrix=loadMatrix("matrix-test.txt")
 graph=convertMatrixToGraph(matrix)
 lastIndex=len(matrix)-1
-path=shortestPath(graph, (0, 0), (lastIndex, lastIndex))
-pprint.pprint(path)
+distance=shortestPath(graph, (0, 0), (lastIndex, lastIndex))
+pprint.pprint(distance+matrix[0][0])
