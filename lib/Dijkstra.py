@@ -7,6 +7,23 @@ def loadMatrix(fileName):
     data=open(fileName).read()
     return map(lambda e: map(lambda e: int(e), e.split(",")), data.strip("\n").split("\n"))
 
+def convertMatrixToGraph(matrix, down=True, right=True, up=False, left=False):
+    vertices=[]
+    edges=[]
+    dimension=len(matrix)
+    for i in range(0, dimension):
+        for j in range(0, dimension):
+            vertices.append((i, j))
+            if (down and i+1<dimension):
+                edges.append(((i, j), (i+1, j), matrix[i+1][j]))
+            if (right and j+1<dimension):
+                edges.append(((i, j), (i, j+1), matrix[i][j+1]))
+            if (up and i-1>=0):
+                edges.append(((i, j), (i-1, j), matrix[i-1][j]))
+            if (left and j-1>=0):
+                edges.append(((i, j), (i, j-1), matrix[i][j-1]))
+    return (vertices, edges)
+
 def shortestPath(graph, startVertice, endVertice, startWeight):
     (vertices, edges)=graph
     previousVerticeMap={}
