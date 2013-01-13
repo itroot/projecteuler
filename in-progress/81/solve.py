@@ -41,6 +41,8 @@ def shortestPath(graph, startVertice, endVertice, startWeight):
         if not vertice in verticeSet:
             continue
         distance=verticeToDistance[vertice]
+        if (float("inf")==distance):
+            break
         adjacentVerticeList=adjacencyListMap[vertice]
         for (adjacentVertice, weight) in adjacentVerticeList:
             adjacentDistance=verticeToDistance[adjacentVertice]
@@ -48,12 +50,14 @@ def shortestPath(graph, startVertice, endVertice, startWeight):
             if (possibleDistance<adjacentDistance):
                 verticeToDistance[adjacentVertice]=possibleDistance
                 heapq.heappush(heap, (possibleDistance, adjacentVertice))
+            if adjacentVertice==endVertice:
+                break
         verticeSet.remove(vertice)
     #print verticeToDistance
     return verticeToDistance[endVertice]+startWeight
 
 matrix=loadMatrix("matrix.txt")
 graph=convertMatrixToGraph(matrix)
-lastIndex=len(matrix)-1
+lastIndex=1#len(matrix)-1
 distance=shortestPath(graph, (0, 0), (lastIndex, lastIndex), matrix[0][0])
 pprint.pprint(distance)
