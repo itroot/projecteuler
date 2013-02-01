@@ -27,7 +27,7 @@ def getCommunityChestCard():
     elif (1==number):
         return "2JAIL"
     else:
-        return None
+        return "DONTMOVE"
 
 def getChanceCard():
     import random
@@ -35,6 +35,8 @@ def getChanceCard():
     number=random.randrange(0, 16)
     if number<len(cardList):
         return cardList[number]
+    else:
+        return "DONTMOVE"
 
 class GameState:
     position=0
@@ -48,25 +50,43 @@ class GameState:
         if self.lastDoubleCount==3:
             self.lastDoubleCount=0
             position=10
-    position=(position+length)%length
-    label=board[position]
-    if (label=="G2J"):
-        position=10
-    elif (label.startswith("CC")):
-        communityChestCard=getCommunityChestCard()
-        if "2JAIL"==communityChestCard:
-            position=10
-        elif "2GO"==communityChestCard:
-            position=0
-    elif (label.startswith("CH")):
-        pass
-    timesVisited[position]+=1
-            
+        diceSum=dice1+dice2
+        self.position=(self.position+diceSum)%length
+        label=board[self.position]
+        if (label=="G2J"):
+            self.position=10
+        elif (label.startswith("CC")):
+            communityChestCard=getCommunityChestCard()
+            position={
+                "2JAIL" : (lambda position: 10),
+                "2GO" : (lambda position: 0),
+                "DONTMOVE" : (lambda position: position),
+            }[communityChestCard](self.position)
+        elif (label.startswith("CH")):
+            def moveToNext(position, sortedPointList):
+                for point in sortedPointList:
+                    if position<point:
+                        position=point
+                        return position
+                    return sortedPointList[0]
+            chanceCard=getChanceCard()
+            position={
+                "2JAIL" : (lambda position: 10),
+                "2GO" : (lambda position: 0),
+                "2C1" : (lambda position: 11),
+                "2E3" : (lambda position: 24),
+                "2H2" : (lambda position: 39),
+                "2R1" : (lambda position: 5),
+                "2nR" : (lambda position: moveToNext(position, (5, 15, 25, 35))),
+                "2nU" : (lambda position: moveToNext(position, (12, 18))),
+                "back3" : (lambda position: (position-3+length)%length),
+                "DONTMOVE" : (lambda position: position),
+            }[chanceCard](self.position)
+        timesVisited[self.position]+=1
 
-experimentNumber=10#10**6
+experimentNumber=10**6
 gameState=GameState()
 
 for i in range(0, experimentNumber):
     gameState.makeMove()
-
 print sorted(zip(board, timesVisited), key=lambda e: e[1], reverse=True)[:5]
