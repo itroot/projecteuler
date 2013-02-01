@@ -19,6 +19,7 @@ def rollTheDice():
 def rollTheDiceTwice():
     return (rollTheDice(), rollTheDice())
 
+# http://stackoverflow.com/questions/473973/shuffle-an-array-with-python
 def getCommunityChestCard():
     import random
     number=random.randrange(0, 16)
