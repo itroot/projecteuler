@@ -67,9 +67,8 @@ class GameState:
             def moveToNext(position, sortedPointList):
                 for point in sortedPointList:
                     if position<point:
-                        position=point
-                        return position
-                    return sortedPointList[0]
+                        return point
+                return sortedPointList[0]
             chanceCard=getChanceCard()
             position={
                 "2JAIL" : (lambda position: 10),
