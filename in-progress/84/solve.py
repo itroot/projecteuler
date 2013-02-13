@@ -50,41 +50,42 @@ class GameState:
             self.lastDoubleCount=0
         if self.lastDoubleCount==3:
             self.lastDoubleCount=0
-            position=10
-        diceSum=dice1+dice2
-        self.position=(self.position+diceSum)%length
-        label=board[self.position]
-        if (label=="G2J"):
             self.position=10
-        elif (label.startswith("CC")):
-            communityChestCard=getCommunityChestCard()
-            self.position={
-                "2JAIL" : (lambda position: 10),
-                "2GO" : (lambda position: 0),
-                "DONTMOVE" : (lambda position: position),
-            }[communityChestCard](self.position)
-        elif (label.startswith("CH")):
-            def moveToNext(position, sortedPointList):
-                for point in sortedPointList:
-                    if position<point:
-                        return point
-                return sortedPointList[0]
-            chanceCard=getChanceCard()
-            self.position={
-                "2JAIL" : (lambda position: 10),
-                "2GO" : (lambda position: 0),
-                "2C1" : (lambda position: 11),
-                "2E3" : (lambda position: 24),
-                "2H2" : (lambda position: 39),
-                "2R1" : (lambda position: 5),
-                "2nR" : (lambda position: moveToNext(position, (5, 15, 25, 35))),
-                "2nU" : (lambda position: moveToNext(position, (12, 18))),
-                "back3" : (lambda position: (position-3+length)%length),
-                "DONTMOVE" : (lambda position: position),
-            }[chanceCard](self.position)
+        else:
+            diceSum=dice1+dice2
+            self.position=(self.position+diceSum)%length
+            label=board[self.position]
+            if (label=="G2J"):
+                self.position=10
+            elif (label.startswith("CC")):
+                communityChestCard=getCommunityChestCard()
+                self.position={
+                    "2JAIL" : (lambda position: 10),
+                    "2GO" : (lambda position: 0),
+                    "DONTMOVE" : (lambda position: position),
+                }[communityChestCard](self.position)
+            elif (label.startswith("CH")):
+                def moveToNext(position, sortedPointList):
+                    for point in sortedPointList:
+                        if position<point:
+                            return point
+                    return sortedPointList[0]
+                chanceCard=getChanceCard()
+                self.position={
+                    "2JAIL" : (lambda position: 10),
+                    "2GO" : (lambda position: 0),
+                    "2C1" : (lambda position: 11),
+                    "2E3" : (lambda position: 24),
+                    "2H2" : (lambda position: 39),
+                    "2R1" : (lambda position: 5),
+                    "2nR" : (lambda position: moveToNext(position, (5, 15, 25, 35))),
+                    "2nU" : (lambda position: moveToNext(position, (12, 18))),
+                    "back3" : (lambda position: (position-3+length)%length),
+                    "DONTMOVE" : (lambda position: position),
+                }[chanceCard](self.position)
         timesVisited[self.position]+=1
 
-experimentNumber=10**5
+experimentNumber=10**5  
 gameState=GameState()
 
 for i in range(0, experimentNumber):
