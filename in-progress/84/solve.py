@@ -10,7 +10,7 @@ board=[
 length=len(board)
 
 timesVisited=[0]*length
-# timesVisited[0]=1
+timesVisited[0]=1
 
 def rollTheDice():
     import random
