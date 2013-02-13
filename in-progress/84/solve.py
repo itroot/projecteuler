@@ -58,7 +58,7 @@ class GameState:
             self.position=10
         elif (label.startswith("CC")):
             communityChestCard=getCommunityChestCard()
-            position={
+            self.position={
                 "2JAIL" : (lambda position: 10),
                 "2GO" : (lambda position: 0),
                 "DONTMOVE" : (lambda position: position),
@@ -70,7 +70,7 @@ class GameState:
                         return point
                 return sortedPointList[0]
             chanceCard=getChanceCard()
-            position={
+            self.position={
                 "2JAIL" : (lambda position: 10),
                 "2GO" : (lambda position: 0),
                 "2C1" : (lambda position: 11),
@@ -84,7 +84,7 @@ class GameState:
             }[chanceCard](self.position)
         timesVisited[self.position]+=1
 
-experimentNumber=10**6
+experimentNumber=10**5
 gameState=GameState()
 
 for i in range(0, experimentNumber):
