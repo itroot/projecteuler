@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+http://www.codeproject.com/Articles/36025/Markov-Monopoly
+"""
+
 board=[
 "GO", "A1", "CC1", "A2", "T1", "R1", "B1", "CH1", "B2", "B3",
 "JAIL", "C1", "U1", "C2", "C3", "R2", "D1", "CC2", "D2", "D3",
 "FP", "E1", "CH2", "E2", "E3", "R3", "F1", "F2", "U2", "F3",
-"G2J", "G1", "G2", "GC3", "G3", "R4", "CH3", "H1", "T2", "H2", 
+"G2J", "G1", "G2", "CC3", "G3", "R4", "CH3", "H1", "T2", "H2",
 ]
 length=len(board)
 
@@ -69,17 +73,17 @@ class GameState:
             diceSum=dice1+dice2
             self.position=(self.position+diceSum)%length
             label=board[self.position]
-            if (label=="G2J"):
-                self.position=10
-            elif (label.startswith("CC")):
+            if (label.startswith("CC")):
                 communityChestCard=getRandomCardFromPile(communityChestCardPile)
                 self.position=communityChestActions[communityChestCard](self.position)
             elif (label.startswith("CH")):
                 chanceCard=getRandomCardFromPile(chanceCardPile)
                 self.position=chanceActions[chanceCard](self.position)
+            if (label=="G2J"):
+                self.position=10
         timesVisited[self.position]+=1
 
-experimentNumber=10**5  
+experimentNumber=10**5
 gameState=GameState()
 
 for i in range(0, experimentNumber):
