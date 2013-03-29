@@ -22,3 +22,5 @@ def getSpecialCuboidsUnder(M):
 
 upperLimit=100
 print getSpecialCuboidsUnder(upperLimit)
+
+print map(getSpecialCuboidsUnder, range(2, 80))
