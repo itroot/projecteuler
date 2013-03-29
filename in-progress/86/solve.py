@@ -11,14 +11,14 @@ import sys
 sys.path.append("../lib"    )
 from IsSquare import isSquare
 
-M=100
+def getSpecialCuboidsUnder(M):
+    result=0
+    for c in range(1, M+1):
+        for b in range(c, M+1):
+            for a in range(b, M+1):
+                if (isSquare(a**2+(b+c)**2)):
+                    result+=1
+    return result
 
-result=0
-for c in range(1, M+1):
-    for b in range(c, M+1):
-        for a in range(b, M+1):
-            if (isSquare(a**2+(b+c)**2)):
-                result+=1
-
-print result
-
+upperLimit=100
+print getSpecialCuboidsUnder(upperLimit)
