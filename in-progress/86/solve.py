@@ -11,6 +11,25 @@ import sys
 sys.path.append("../lib"    )
 from IsSquare import isSquare
 
+print "test"
+"""
+Idea: we can generate all P-triplets under M, then calculate all
+possible cuboid dimensions
+"""
+tripletList=[]
+M=100
+for m in range(1, M):
+    for n in range(1, m):
+        triplet=(m**2-n**2, 2*m*n) #, m**2+n**2)
+        if not all(map(lambda e: e<=M, triplet)):
+            break
+        else:
+            tripletList.append(triplet)
+print tripletList
+import sys
+sys.exit()
+print "test"
+
 def getSpecialCuboidsUnder(M):
     result=0
     for c in range(1, M+1):
