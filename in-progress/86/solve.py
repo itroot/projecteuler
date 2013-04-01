@@ -5,6 +5,7 @@
 Let a, b, c - a dimensions of a cuboid.
 Suppose that M>=a>=b>=c . Then a shortest cuboid route will be:
 (a**2+(b+c)**2)**.5 , i.e. a hypo of triangle catetes: (a)<=M, (b+c)<=2*M.
+Let x=b+c, then , a>=x (?) -> x/2 possibilities, a<x ?
 """
 
 import sys
@@ -26,6 +27,8 @@ for m in range(1, M):
         else:
             tripletList.append(triplet)
 print tripletList
+print len(tripletList)
+
 import sys
 sys.exit()
 print "test"
