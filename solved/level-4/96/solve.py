@@ -60,14 +60,21 @@ def solveSudoku(sudoku):
     if len(stats)==0:
         return sudoku
     stats=sorted(stats, reverse=True, key=lambda e: len(e[1]))
-    print stats[0]
+    #print stats[0]
     (position, digitSet)=stats[0]
     remainingDigits=set(range(1, 10))-digitSet
-    if len(remainingDigits)!=1:
-        raise Exception("Not implemented yet")
-    (x, y)=position
-    sudoku[y][x]=list(remainingDigits)[0]
-    return solveSudoku(sudoku)
+    if len(remainingDigits)==0:
+        return None
+    #if len(remainingDigits)!=1:
+    #    raise Exception("Not implemented yet")
+    for digit in remainingDigits:
+        import copy
+        (x, y)=position
+        sudoku[y][x]=digit
+        solvedSudoku=solveSudoku(copy.deepcopy(sudoku))
+        if None!=solvedSudoku:
+            return solvedSudoku
+    return None
     #usedDigits=getUsedDigits(sudoku, position)
     #print usedDigits
     #(x, y)=position
@@ -76,8 +83,5 @@ def solveSudoku(sudoku):
 sudokuList=readSudokuFile("sudoku.txt")
 
 
-for sudoku in sudokuList:
-    solvedSudoku=solveSudoku(sudoku)
-    import pprint
-    pprint.pprint(solvedSudoku)
-    break
+solvedSudokuList=map(solveSudoku, sudokuList)
+print reduce(lambda a, b : a+int("".join(map(str, b[0][:3]))), solvedSudokuList, 0)
