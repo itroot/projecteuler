@@ -61,6 +61,8 @@ for combination in itertools.combinations(range(1, 10), 4):
                 result.extend(applyOperation(list(permutation), list(operationPermutation)))
     sortedResultList=sorted(list(set(map(lambda f: f.numerator, filter(lambda f: f>0 and f.denominator==1, result)))))
     consecutive=consecutiveIndex(sortedResultList)
-    print sortedResultList, consecutive
+    #print sortedResultList, consecutive
     output.append((combination, consecutive))
-print "".join(sorted(max(output, lambda e: e[1])))
+    #break
+
+print "".join(map(str, sorted(max(output, key=lambda e: e[1])[0])))
