@@ -7,12 +7,12 @@ def anagramHash(word):
 def anagramSet(word):
     return "".join(sorted(list(set(word))))
 
-wordList = map(lambda e: e[1:-1], open("words.txt").read().split(","))
+wordList = map(lambda e: e[1:-1], open("test-words.txt").read().rstrip("\n").split(","))
 #print wordList
 
 from collections import defaultdict
 anagramDict = defaultdict(list)
-
+#print anagramDict
 
 
 for word in wordList:
@@ -32,7 +32,7 @@ from IsSquare import isSquare
 
 def checkAnagram(anagramSet, anagramList):
     from itertools import permutations
-    numberPermutations = list(permutations(range(0, 9), len(anagramSet)))
+    numberPermutations = list(permutations(range(0, 10), len(anagramSet)))
     for permutation in numberPermutations:
         squareList = []
         for word in anagramList:
@@ -40,12 +40,14 @@ def checkAnagram(anagramSet, anagramList):
             if numberList[0] == "0":
                 break
             number = int("".join(numberList))
+            #print number
             if isSquare(number):
+                print number
                 squareList.append(number)
             elif len(anagramList) == 2:
                 break
         if (len(squareList) > 1):
-            print squareList
+            #print squareList
             pass # write result 
         #break
     #print anagramSet
