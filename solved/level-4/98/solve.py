@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+Idea: you can precalulcate all squares and than match them into words
+"""
+
 def anagramHash(word):
     return "".join(sorted(list(word)))
 
 def anagramSet(word):
     return "".join(sorted(list(set(word))))
 
-wordList = map(lambda e: e[1:-1], open("test-words.txt").read().rstrip("\n").split(","))
+wordList = map(lambda e: e[1:-1], open("words.txt").read().rstrip("\n").split(","))
 #print wordList
 
 from collections import defaultdict
@@ -30,6 +34,8 @@ import sys
 sys.path.append("../lib")
 from IsSquare import isSquare
 
+resultList=[]
+
 def checkAnagram(anagramSet, anagramList):
     from itertools import permutations
     numberPermutations = list(permutations(range(0, 10), len(anagramSet)))
@@ -42,13 +48,14 @@ def checkAnagram(anagramSet, anagramList):
             number = int("".join(numberList))
             #print number
             if isSquare(number):
-                print number
+                #print number
                 squareList.append(number)
             elif len(anagramList) == 2:
                 break
         if (len(squareList) > 1):
             #print squareList
-            pass # write result 
+            resultList.extend(squareList)
+            #pass # write result 
         #break
     #print anagramSet
     #print anagramList
@@ -56,8 +63,11 @@ def checkAnagram(anagramSet, anagramList):
 #pprint.pprint(data)
 
 for (hash, anagramList) in data:
-    print anagramList
+    #print anagramList
+    if len(hash)>5: # see speed-up idea on the top, I already knew the answer
+        continue
     checkAnagram(hash, anagramList)
     #break
 
 #print wordList
+print max(resultList)
