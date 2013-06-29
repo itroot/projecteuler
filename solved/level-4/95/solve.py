@@ -6,8 +6,7 @@ import pprint
 # draw DAG graph for numbers < 100
 # you can code any dag in numbers, any new dependnecy - just multiplication
 
-upperLimit = 10**3+1
-#upperLimit = 10**6+1
+upperLimit = 10**6+1
 
 sieve = [None]*(upperLimit+1)
 for number in range(0, upperLimit):
@@ -45,4 +44,34 @@ def divisors(factorization):
 allDivisorsList = map(lambda e: divisors(getPrimeDivisors(e)), range(0, upperLimit))
 
 #pprint.pprint(sieve[:100])
-pprint.pprint(allDivisorsList[:100])
+#pprint.pprint(allDivisorsList[:100])
+sumList = map(lambda e: sum(e[:-1]), allDivisorsList)
+
+visitedList = [False] * upperLimit
+visitedList[0] = True
+visitedList[1] = True
+
+#pprint.pprint(sumList[:100])
+
+cycleList = []
+for i in range(0, upperLimit):
+    if visitedList[i]:
+        continue
+    #print i
+    possibleCycle = [i]
+    visitedList[i] = True
+    nextIndex = sumList[i]
+    while True:
+        if nextIndex>upperLimit:
+            break
+        if (visitedList[nextIndex]):
+            break
+        visitedList[nextIndex] = True
+        possibleCycle.append(nextIndex)
+        nextIndex = sumList[nextIndex]
+        #print nextIndex
+    if nextIndex in possibleCycle:
+        cycleList.append(possibleCycle[possibleCycle.index(nextIndex):])
+#import pprint
+#pprint.pprint(cycleList)
+print min(max(cycleList, key=lambda e: len(e)))
