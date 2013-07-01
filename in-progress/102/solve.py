@@ -15,7 +15,8 @@ def compile():
     binaryPath = secretPath+"/"+digest
     if (not os.path.exists(secretPath+"/"+digest)):
         subprocess.check_call("g++ -g -O0 -Wall solve.cpp -o %s" % binaryPath, shell=True)
-    os.remove("solve")
+    if os.path.exists("solve"):
+        os.remove("solve")
     os.symlink(binaryPath, "solve")
 
 def launch():
