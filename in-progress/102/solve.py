@@ -14,7 +14,7 @@ def compile():
     digest = sha1.hexdigest()
     binaryPath = secretPath+"/"+digest
     if (not os.path.exists(secretPath+"/"+digest)):
-        subprocess.check_call("g++ -g -O0 -Wall solve.cpp -o %s" % binaryPath, shell=True)
+        subprocess.check_call("g++ -std=c++0x -g -O0 -Wall solve.cpp -o %s" % binaryPath, shell=True)
     if os.path.exists("solve"):
         os.remove("solve")
     os.symlink(binaryPath, "solve")
