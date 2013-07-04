@@ -30,19 +30,22 @@ print tripletList
 print len(tripletList)
 
 import sys
-sys.exit()
+#sys.exit()
 print "test"
 
 def getSpecialCuboidsUnder(M):
     result=0
-    for c in range(1, M+1):
-        for b in range(c, M+1):
-            for a in range(b, M+1):
+    for a in range(1, M+1):
+        print "# a -> ", a
+        for b in range(1, a+1):
+            for c in range(1, b+1):
                 if (isSquare(a**2+(b+c)**2)):
+                    import math
+                    print a, b, c, "->", a, b+c, int(math.sqrt(a**2+(b+c)**2))
                     result+=1
     return result
 
 upperLimit=100
-print getSpecialCuboidsUnder(upperLimit)
+print getSpecialCuboidsUnder(10)
 
-print map(getSpecialCuboidsUnder, range(2, 80))
+#print map(getSpecialCuboidsUnder, range(2, 80))
