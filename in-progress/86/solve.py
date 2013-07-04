@@ -16,6 +16,7 @@ print "test"
 """
 Idea: we can generate all P-triplets under M, then calculate all
 possible cuboid dimensions
+TODO: We can generate primitive triplets only
 """
 tripletList=[]
 M=100
