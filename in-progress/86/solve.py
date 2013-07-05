@@ -9,7 +9,7 @@ Let x=b+c, then , a>=x (?) -> x/2 possibilities, a<x ?
 """
 
 import sys
-sys.path.append("../lib"    )
+sys.path.append("../lib")
 from IsSquare import isSquare
 
 print "test"
@@ -47,6 +47,39 @@ def getSpecialCuboidsUnder(M):
     return result
 
 upperLimit=100
-print getSpecialCuboidsUnder(10)
+print getSpecialCuboidsUnder(20)
+
+from PythagoreanTriples import traverse, MN2ABC, pairMN
+
+isFit = lambda triple: min(triple) <= upperLimit
+
+allPrimitiveTriples = []
+def traverseCondition(pairMN):
+    triple=MN2ABC(pairMN)
+    result=isFit(triple)
+    if result:
+        allPrimitiveTriples.append(triple)
+    return result
+
+traverse(pairMN, traverseCondition)
+
+import pprint
+pprint.pprint(allPrimitiveTriples)
+
+def expandTriple(triple):
+    multipliedTriple = lambda triple, i: tuple(map(lambda e: e*i, triple))
+    expansion = []
+    index = 1
+    newTriple = triple
+    while isFit(newTriple):
+        expansion.append(newTriple)
+        newTriple = multipliedTriple(triple, index)
+        index += 1
+    return expansion
+
+allTriples = reduce(lambda a, b : a+b, map(expandTriple, allPrimitiveTriples), [])
+
+pprint.pprint(allTriples)
+print len(allTriples)
 
 #print map(getSpecialCuboidsUnder, range(2, 80))
