@@ -13,7 +13,10 @@ exampleList = (
     (3*5, 3*7),
     (5*17, 5*24),
     (17*29, 17*41),
-    (99*29, 140*29),
+#    (29*41, 29*58),
+    (29*99, 29*140),
+    (99*169, 99*239),
+#    (169*408, 169*577),
 )
 
 def printExample(example):
@@ -35,14 +38,14 @@ def testNumber(origin, shift):
     if (isSquare(number)):
         print int(math.sqrt(number)), "/", origin
 
-for i in range(100, 1000000):
+for i in range(1, 1000000):
     testNumber(i, +1)
-    testNumber(i, +2)
-    testNumber(i, +3)
+    #testNumber(i, +2)
+    #testNumber(i, +3)
     testNumber(i, -1)
-    testNumber(i, -2)
-    testNumber(i, -3)
-    if (i>2000):
+    #testNumber(i, -2)
+    #testNumber(i, -3)
+    if (i>20000):
         break
 
 sys.exit(0)
