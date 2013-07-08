@@ -88,17 +88,17 @@ def solve(allTriples, M):
     result = 0
     for triple in allTriples:
         if (triple[1]<=M):
-            pass
-            result += triple[0]/2
+            number = triple[0]/2
+            print "CASE1", triple, number
+            result += number
         if (triple[0]<=M):
-            #print triple
             number = triple[1]-triple[0]+1
-            if (number<M):
-                print triple, number
+            if (number<=triple[0]):
+                print "CASE2", triple, number
                 result += number;
     return result
 
-currentNumber = 7
+currentNumber = 8
 print getSpecialCuboidsUnder(currentNumber)
 print "Solve:", solve(allTriples, currentNumber)
 #print map(getSpecialCuboidsUnder, range(2, 80))
