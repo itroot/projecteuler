@@ -1,10 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+"""
+see: http://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Pell.27s_equation
+"""
+
 import math
 import fractions
 
-exampleList = ((15, 21), (85, 120))
+exampleList = (
+    (3*5, 3*7),
+    (5*17, 5*24),
+    (17*29, 17*41),
+    (99*29, 140*29),
+)
 
 def printExample(example):
     (a, b) = example
@@ -25,9 +35,15 @@ def testNumber(origin, shift):
     if (isSquare(number)):
         print int(math.sqrt(number)), "/", origin
 
-for i in range(2, 1000000):
+for i in range(100, 1000000):
     testNumber(i, +1)
+    testNumber(i, +2)
+    testNumber(i, +3)
     testNumber(i, -1)
+    testNumber(i, -2)
+    testNumber(i, -3)
+    if (i>2000):
+        break
 
 sys.exit(0)
 
