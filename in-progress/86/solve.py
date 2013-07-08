@@ -12,7 +12,7 @@ import sys
 sys.path.append("../lib")
 from IsSquare import isSquare
 
-print "test"
+#print "test"
 """
 Idea: we can generate all P-triplets under M, then calculate all
 possible cuboid dimensions
@@ -27,12 +27,12 @@ for m in range(1, M):
             break
         else:
             tripletList.append(triplet)
-print tripletList
-print len(tripletList)
+#print tripletList
+#print len(tripletList)
 
 import sys
 #sys.exit()
-print "test"
+#print "test"
 
 def getSpecialCuboidsUnder(M):
     result=0
@@ -47,8 +47,8 @@ def getSpecialCuboidsUnder(M):
     return result
 
 upperLimit=100
-print getSpecialCuboidsUnder(20)
 
+#sys.exit(0)
 from PythagoreanTriples import traverse, MN2ABC, pairMN
 
 isFit = lambda triple: min(triple) <= upperLimit
@@ -63,8 +63,10 @@ def traverseCondition(pairMN):
 
 traverse(pairMN, traverseCondition)
 
+# every primitive triple gives us number of primitive cuboibs ?
+
 import pprint
-pprint.pprint(allPrimitiveTriples)
+#pprint.pprint(allPrimitiveTriples)
 
 def expandTriple(triple):
     multipliedTriple = lambda triple, i: tuple(map(lambda e: e*i, triple))
@@ -77,9 +79,26 @@ def expandTriple(triple):
         index += 1
     return expansion
 
-allTriples = reduce(lambda a, b : a+b, map(expandTriple, allPrimitiveTriples), [])
+allTriples = list(set(reduce(lambda a, b : a+b, map(lambda e: expandTriple(tuple(sorted(e))), allPrimitiveTriples), [])))
 
-pprint.pprint(allTriples)
-print len(allTriples)
+#pprint.pprint(allTriples)
+#print len(allTriples)
 
+def solve(allTriples, M):
+    result = 0
+    for triple in allTriples:
+        if (triple[1]<=M):
+            pass
+            result += triple[0]/2
+        if (triple[0]<=M):
+            #print triple
+            number = triple[1]-triple[0]+1
+            if (number<M):
+                print triple, number
+                result += number;
+    return result
+
+currentNumber = 7
+print getSpecialCuboidsUnder(currentNumber)
+print "Solve:", solve(allTriples, currentNumber)
 #print map(getSpecialCuboidsUnder, range(2, 80))
