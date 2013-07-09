@@ -5,6 +5,29 @@
 http://www.codeproject.com/Articles/36025/Markov-Monopoly
 """
 
+import numpy
+import pprint
+import math
+
+boardSize = 40
+
+rollMatrix = numpy.matrix([[0.0]*boardSize]*boardSize)
+for i in range(0, boardSize):
+    for j in range(2, 12+1):
+        value = (6 - math.fabs(7-j))
+        #print value
+        rollMatrix[(i+j)%boardSize, i] = value/36.0
+    #break
+
+#print rollMatrix
+#print numpy.asarray(rollMatrix)
+numpy.savetxt("matrix.csv", numpy.asarray(rollMatrix), delimiter=",")
+"""
+Below is old solution
+"""
+import sys
+sys.exit(0)
+
 board=[
 "GO", "A1", "CC1", "A2", "T1", "R1", "B1", "CH1", "B2", "B3",
 "JAIL", "C1", "U1", "C2", "C3", "R2", "D1", "CC2", "D2", "D3",
