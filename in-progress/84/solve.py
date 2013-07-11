@@ -9,6 +9,9 @@ import numpy
 import pprint
 import math
 
+def saveMatrix(matrix, name):
+    numpy.savetxt("%s.csv"%name, numpy.asarray(matrix), delimiter=",")
+
 boardSize = 40
 
 rollMatrix = numpy.matrix([[0.0]*boardSize]*boardSize)
@@ -20,8 +23,22 @@ for i in range(0, boardSize):
     #break
 
 #print rollMatrix
-#print numpy.asarray(rollMatrix)
-numpy.savetxt("matrix.csv", numpy.asarray(rollMatrix), delimiter=",")
+saveMatrix(rollMatrix, "rollMatrix")
+
+stateMatrix = numpy.matrix([[0.0]*boardSize]*boardSize)
+for i in range(0, boardSize):
+    stateMatrix[i, i] = 1.0
+stateMatrix[10, 30] = 0.0
+stateMatrix[10, 30] = 1.0
+for i in range(0, boardSize):
+    if i in (2, 17, 33):
+        stateMatrix[0, i] = 1.0/16.0
+        stateMatrix[10, i] = 1.0/16.0
+        stateMatrix[i, i] = 14.0/16.0
+saveMatrix(stateMatrix, "stateMatrix")
+resultMatrix = stateMatrix*rollMatrix
+saveMatrix(resultMatrix, "resultMatrix")
+print numpy.linalg.eigvals(resultMatrix)
 """
 Below is old solution
 """
