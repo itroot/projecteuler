@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
-def compile(libraries):
+def readMeta():
+    import yaml
+    return yaml.load(open("solve.yaml"))
+
+def compile():
     import subprocess
     import os
     secretPath = ".pycpplauncher"
@@ -13,12 +17,16 @@ def compile(libraries):
     digest = sha1.hexdigest()
     binaryPath = secretPath+"/"+digest
     if (not os.path.exists(secretPath+"/"+digest)):
-        subprocess.check_call("g++ -std=c++0x -g -O0 -Wall solve.cpp %s -o %s" % (" ".join(map(lambda e: "-l"+e, libraries)), binaryPath), shell=True)
+        meta = readMeta()
+        lstring = " ".join(map(lambda e: "-l"+e, meta["libraries"]))
+        template = "g++ -std=c++0x -g -O0 -Wall solve.cpp %s -o %s"
+        command = template % (lstring, binaryPath)
+        subprocess.check_call(command, shell=True)
     if os.path.exists("solve"):
         os.remove("solve")
     os.symlink(binaryPath, "solve")
 
-def launch(libraries=None):
-    compile(libraries)
+def launch():
+    compile()
     import subprocess
     subprocess.check_call("./solve", shell=True)
