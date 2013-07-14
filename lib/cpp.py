@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-def compile():
+def compile(libraries):
     import subprocess
     import os
     secretPath = ".pycpplauncher"
@@ -13,12 +13,12 @@ def compile():
     digest = sha1.hexdigest()
     binaryPath = secretPath+"/"+digest
     if (not os.path.exists(secretPath+"/"+digest)):
-        subprocess.check_call("g++ -std=c++0x -g -O0 -Wall solve.cpp -o %s" % binaryPath, shell=True)
+        subprocess.check_call("g++ -std=c++0x -g -O0 -Wall solve.cpp %s -o %s" % (" ".join(map(lambda e: "-l"+e, libraries)), binaryPath), shell=True)
     if os.path.exists("solve"):
         os.remove("solve")
     os.symlink(binaryPath, "solve")
 
-def launch():
-    compile()
+def launch(libraries=None):
+    compile(libraries)
     import subprocess
     subprocess.check_call("./solve", shell=True)
