@@ -4,33 +4,36 @@
 #include <vector>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
+#include <boost/math/special_functions/pow.hpp>
+
+namespace {
+const size_t digitNumber = 9;
+}
 
 template <typename Number>
 struct FibonacciPair {
     FibonacciPair()
-    : n1(0)
-    , n2(1)
+    : current(0)
+    , next(1)
     , index(0)
     {}
-    void next() {
-        Number next = n1 + n2;
-        n1 = n2;
-        n2 = next;
+    void advance() {
+        next += current;
+        std::swap(next, current);
         ++index;
     }
-    Number n1;
-    Number n2;
+    Number current;
+    Number next;
     size_t index;
 };
 
-const size_t threshold = 1000000000;
 
 bool isPandigital(const std::string& s) {
-    if (s.length()<9) {
+    if (s.length() < digitNumber) {
         return false;
     }
-    std::vector<bool> v(9, false);
-    for (size_t i=0; i!=9; ++i) {
+    std::vector<bool> v(digitNumber, false);
+    for (size_t i=0; i!=digitNumber; ++i) {
         char c=s[i];
         char llimit = '1';
         char ulimit = '9';
@@ -49,17 +52,19 @@ bool isPandigital(const std::string& s) {
 }
 
 int main() {
+    const size_t decimalBase = 10;
+    const size_t threshold = boost::math::pow<digitNumber>(decimalBase);
     FibonacciPair<mpz_class> exact;
     FibonacciPair<mpz_class> notexact;
     while (true) {
-        if (isPandigital(boost::lexical_cast<std::string>(notexact.n1))) {
-            if (isPandigital(boost::lexical_cast<std::string>(exact.n1))) {
+        if (isPandigital(boost::lexical_cast<std::string>(notexact.current))) {
+            if (isPandigital(boost::lexical_cast<std::string>(exact.current))) {
                 std::cout << exact.index << std::endl;
                 exit(EXIT_SUCCESS);
             }
         }
-        notexact.next();
-        exact.next();
-        notexact.n1 %= threshold;
+        notexact.advance();
+        exact.advance();
+        notexact.current %= threshold;
     }
 }
