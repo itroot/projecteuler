@@ -1,7 +1,7 @@
 #include <gmpxx.h>
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <bitset>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <boost/math/special_functions/pow.hpp>
@@ -32,39 +32,46 @@ bool isPandigital(const std::string& s) {
     if (s.length() < digitNumber) {
         return false;
     }
-    std::vector<bool> v(digitNumber, false);
-    for (size_t i=0; i!=digitNumber; ++i) {
-        char c=s[i];
+    std::bitset<digitNumber> v;
+    for (size_t i = 0; i != digitNumber; ++i) {
+        char c = s[i];
         char llimit = '1';
-        char ulimit = '9';
-        if ((c>=llimit) && (c<=ulimit)) {
-            size_t pos = c-llimit;
-            if (v[pos]) {
-                return false;
-            } else {
-                v[pos] = true;
-            }
-        } else {
+        char ulimit = llimit + digitNumber;
+        if (!(( c>= llimit) && (c < ulimit))) {
             return false;
+        }
+        size_t pos = c - llimit;
+        if (v.test(pos)) {
+            return false;
+        } else {
+            v.set(pos);
         }
     }
     return true;
 }
 
-int main() {
+template<typename Number>
+bool isPanhead(const Number& number)
+{
+    return isPandigital(boost::lexical_cast<std::string>(number));
+}
+
+void truncate(size_t& number) {
     const size_t decimalBase = 10;
     const size_t threshold = boost::math::pow<digitNumber>(decimalBase);
+    number %= threshold;
+}
+
+int main() {
     FibonacciPair<mpz_class> exact;
-    FibonacciPair<mpz_class> notexact;
+    FibonacciPair<size_t> tail;
     while (true) {
-        if (isPandigital(boost::lexical_cast<std::string>(notexact.current))) {
-            if (isPandigital(boost::lexical_cast<std::string>(exact.current))) {
-                std::cout << exact.index << std::endl;
-                exit(EXIT_SUCCESS);
-            }
+        if (isPanhead((tail.current)) && isPanhead(exact.current)) {
+            std::cout << exact.index << std::endl;
+            break;
         }
-        notexact.advance();
+        tail.advance();
         exact.advance();
-        notexact.current %= threshold;
+        truncate(tail.current);
     }
 }

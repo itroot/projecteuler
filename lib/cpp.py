@@ -4,6 +4,12 @@ def readMeta():
     import yaml
     return yaml.load(open("solve.yaml"))
 
+def profile(handler):
+    #try:
+    handler()
+    #except Exception, e:
+    #    pass
+
 def compile():
     import subprocess
     import os
@@ -27,6 +33,6 @@ def compile():
     os.symlink(binaryPath, "solve")
 
 def launch():
-    compile()
+    profile(compile)
     import subprocess
     subprocess.check_call("./solve", shell=True)
