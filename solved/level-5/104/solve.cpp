@@ -5,6 +5,7 @@
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <boost/math/special_functions/pow.hpp>
+#include <algorithm>
 
 namespace {
 const size_t digitNumber = 9;
@@ -29,25 +30,8 @@ struct FibonacciPair {
 
 
 bool isPandigital(const std::string& s) {
-    if (s.length() < digitNumber) {
-        return false;
-    }
-    std::bitset<digitNumber> v;
-    for (size_t i = 0; i != digitNumber; ++i) {
-        char c = s[i];
-        char llimit = '1';
-        char ulimit = llimit + digitNumber;
-        if (!(( c>= llimit) && (c < ulimit))) {
-            return false;
-        }
-        size_t pos = c - llimit;
-        if (v.test(pos)) {
-            return false;
-        } else {
-            v.set(pos);
-        }
-    }
-    return true;
+    const std::string digits9("123456789");
+    return is_permutation(digits9.begin(), digits9.end(), s.begin());
 }
 
 template<typename Number>
