@@ -45,6 +45,13 @@ void for_each_indexed(Iterator begin, Iterator end, Handler handler) {
     }
 }
 
+template<class Iterator, class Handler>
+void for_each_iterator(Iterator begin, Iterator end, Handler handler) {
+    for (Iterator it = begin; it != end; ++it) {
+        handler(it);
+    }
+}
+
 int main(int /*argc*/, char* /*argv*/[])
 {
     NumberArray numberArray;
@@ -58,17 +65,23 @@ int main(int /*argc*/, char* /*argv*/[])
         squareSumArray[i] = sum;
     });
     Number result = 0;
-    for (Number i = 0; i != upperLimitSqrt; ++i) {
-        for (Number j = 0; i != j; ++j) {
-            Number number = squareSumArray[i] - squareSumArray[j];
-            if (number >=  upperLimit) {
-                continue;
-            }
-            std::string s = boost::lexical_cast<std::string>(number);
-            if (isPalindromic(s.begin(), s.end())) {
-                result += number;
-            }
+    for_each_iterator(squareSumArray.begin(), squareSumArray.end(),
+        [&](NumberArray::iterator it)
+        {
+            for_each_iterator(squareSumArray.begin(), it,
+                [&](NumberArray::iterator jt)
+                {
+                    Number number = *it - *jt;
+                    if (number >=  upperLimit) {
+                        return;
+                    }
+                    std::string s = boost::lexical_cast<std::string>(number);
+                    if (isPalindromic(s.begin(), s.end())) {
+                        result += number;
+                    }
+                }
+            );
         }
-    }
+    );
     std::cout << result << std::endl;
 }
