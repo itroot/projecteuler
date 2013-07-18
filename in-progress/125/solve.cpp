@@ -96,7 +96,6 @@ int main(int /*argc*/, char* /*argv*/[])
         [&](std::vector<NumberArray::iterator>::iterator begin, std::vector<NumberArray::iterator>::iterator end)
         {
             Number number = **(begin+1) - **begin;
-            //std::cout << "!" << number << "?" << *begin << std::endl;
             if (number >=  upperLimit) {
                 return;
             }
