@@ -52,12 +52,39 @@ void for_each_iterator(Iterator begin, Iterator end, Handler handler) {
     }
 }
 
+template<class Iterator, class DataIterator, class Handler>
+void testc(Iterator begin, Iterator end, DataIterator dbegin, DataIterator dend, DataIterator current, Handler handler)
+{
+    if (current == dend) {
+        handler(dbegin, dend);
+        return;
+    }
+    if (begin == end) {
+        return;
+    }
+    for_each_iterator(begin, end,
+        [&](Iterator it)
+        {
+            *current = it;
+            testc(it+1, end, dbegin, dend, current+1, handler);
+        }
+    );
+}
+
+template<class Iterator, class Handler>
+void for_distinct_collection(Iterator begin, Iterator end, size_t size, Handler handler)
+{
+    std::vector<Iterator> data;
+    data.resize(size);
+    testc(begin, end, data.begin(), data.end(), data.begin(), handler);
+}
+
 int main(int /*argc*/, char* /*argv*/[])
 {
     NumberArray numberArray;
     std::copy(Counting(0), Counting(upperLimitSqrt), numberArray.begin());
     NumberArray squareArray;
-    std::transform(numberArray.begin(), numberArray.end(), squareArray.begin(), boost::math::pow<2, Number  >);
+    std::transform(numberArray.begin(), numberArray.end(), squareArray.begin(), boost::math::pow<2, Number>);
     NumberArray squareSumArray;
     Number sum = 0;
     for_each_indexed(squareArray.begin(), squareArray.end(), [&](Number n, size_t i) {
@@ -65,22 +92,18 @@ int main(int /*argc*/, char* /*argv*/[])
         squareSumArray[i] = sum;
     });
     Number result = 0;
-    for_each_iterator(squareSumArray.begin(), squareSumArray.end(),
-        [&](NumberArray::iterator it)
+    for_distinct_collection(squareSumArray.begin(), squareSumArray.end(), 2, 
+        [&](std::vector<NumberArray::iterator>::iterator begin, std::vector<NumberArray::iterator>::iterator end)
         {
-            for_each_iterator(squareSumArray.begin(), it,
-                [&](NumberArray::iterator jt)
-                {
-                    Number number = *it - *jt;
-                    if (number >=  upperLimit) {
-                        return;
-                    }
-                    std::string s = boost::lexical_cast<std::string>(number);
-                    if (isPalindromic(s.begin(), s.end())) {
-                        result += number;
-                    }
-                }
-            );
+            Number number = **(begin+1) - **begin;
+            //std::cout << "!" << number << "?" << *begin << std::endl;
+            if (number >=  upperLimit) {
+                return;
+            }
+            std::string s = boost::lexical_cast<std::string>(number);
+            if (isPalindromic(s.begin(), s.end())) {
+                result += number;
+            }
         }
     );
     std::cout << result << std::endl;
