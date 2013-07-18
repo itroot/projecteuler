@@ -53,10 +53,10 @@ void for_each_iterator(Iterator begin, Iterator end, Handler handler) {
 }
 
 template<class Iterator, class DataIterator, class Handler>
-void testc(Iterator begin, Iterator end, DataIterator dbegin, DataIterator dend, DataIterator current, Handler handler)
+void testc(Iterator begin, Iterator end, DataIterator data_begin, DataIterator data_end, DataIterator current, Handler handler)
 {
-    if (current == dend) {
-        handler(dbegin, dend);
+    if (current == data_end) {
+        handler(data_begin, data_end);
         return;
     }
     if (begin == end) {
@@ -66,7 +66,7 @@ void testc(Iterator begin, Iterator end, DataIterator dbegin, DataIterator dend,
         [&](Iterator it)
         {
             *current = it;
-            testc(it+1, end, dbegin, dend, current+1, handler);
+            testc(it+1, end, data_begin, data_end, current+1, handler);
         }
     );
 }
