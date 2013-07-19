@@ -53,7 +53,7 @@ void for_each_iterator(Iterator begin, Iterator end, Handler handler) {
 }
 
 template<class Iterator, class DataIterator, class Handler>
-void testc(Iterator begin, Iterator end, DataIterator data_begin, DataIterator data_end, DataIterator current, Handler handler)
+void distinct_collection_step(Iterator begin, Iterator end, DataIterator data_begin, DataIterator data_end, DataIterator current, Handler handler)
 {
     if (current == data_end) {
         handler(data_begin, data_end);
@@ -66,7 +66,7 @@ void testc(Iterator begin, Iterator end, DataIterator data_begin, DataIterator d
         [&](Iterator it)
         {
             *current = it;
-            testc(it+1, end, data_begin, data_end, current+1, handler);
+            distinct_collection_step(it+1, end, data_begin, data_end, current+1, handler);
         }
     );
 }
@@ -76,7 +76,7 @@ void for_distinct_collection(Iterator begin, Iterator end, size_t size, Handler 
 {
     std::vector<Iterator> data;
     data.resize(size);
-    testc(begin, end, data.begin(), data.end(), data.begin(), handler);
+    distinct_collection_step(begin, end, data.begin(), data.end(), data.begin(), handler);
 }
 
 int main(int /*argc*/, char* /*argv*/[])
