@@ -11,6 +11,8 @@
 /// @todo see http://wordaligned.org/articles/sums-and-sums-of-squares
 /// @todo add common header with printContainer
 
+#include <set>
+
 namespace moveit {
 template <typename Container>
 std::ostream& print(std::ostream& ostream, const Container& container)
@@ -23,10 +25,10 @@ std::ostream& print(std::ostream& ostream, const Container& container)
 
 namespace {
     typedef size_t Number;
-    const Number upperLimitSqrt = 32;//10000;
-    //const Number upperLimitSqrt = 10000;
-    const Number upperLimit = 1000;//upperLimitSqrt * upperLimitSqrt;
-    //const Number upperLimit = upperLimitSqrt * upperLimitSqrt;
+    //const Number upperLimitSqrt = 32;//10000;
+    const Number upperLimitSqrt = 10000;
+    //const Number upperLimit = 1000;//upperLimitSqrt * upperLimitSqrt;
+    const Number upperLimit = upperLimitSqrt * upperLimitSqrt;
     typedef std::array<Number, upperLimitSqrt> NumberArray;
     typedef boost::counting_iterator<Number> Counting;
 }
@@ -93,7 +95,8 @@ int main(int /*argc*/, char* /*argv*/[])
         sum += n;
         squareSumArray[i] = sum;
     });
-    Number result = 0;
+    //Number result = 0;
+    std::set<Number> resultSet;
     for_distinct_collection(squareSumArray.begin(), squareSumArray.end(), 2,
         [&](std::vector<NumberArray::iterator>::iterator begin, std::vector<NumberArray::iterator>::iterator end)
         {
@@ -106,12 +109,13 @@ int main(int /*argc*/, char* /*argv*/[])
                 return;
             }
             if (isPalindromic(s.begin(), s.end())) {
-                std::cout << *begin - squareSumArray.begin() << " " << *(begin+1) - squareSumArray.begin() << std::endl;
-                std::cout << "@ " << number << std::endl;
-                std::cout << std::endl;
-                result += number;
+                //std::cout << *begin - squareSumArray.begin() << " " << *(begin+1) - squareSumArray.begin() << std::endl;
+                //std::cout << "@ " << number << std::endl;
+                //std::cout << std::endl;
+                resultSet.insert(number);
+                //result += number;
             }
         }
     );
-    std::cout << result << std::endl;
+    std::cout << std::accumulate(resultSet.begin(), resultSet.end(), 0L) << std::endl;
 }
