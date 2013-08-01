@@ -23,8 +23,10 @@ std::ostream& print(std::ostream& ostream, const Container& container)
 
 namespace {
     typedef size_t Number;
-    const Number upperLimitSqrt = 10000;
-    const Number upperLimit = upperLimitSqrt * upperLimitSqrt;
+    const Number upperLimitSqrt = 32;//10000;
+    //const Number upperLimitSqrt = 10000;
+    const Number upperLimit = 1000;//upperLimitSqrt * upperLimitSqrt;
+    //const Number upperLimit = upperLimitSqrt * upperLimitSqrt;
     typedef std::array<Number, upperLimitSqrt> NumberArray;
     typedef boost::counting_iterator<Number> Counting;
 }
@@ -92,7 +94,7 @@ int main(int /*argc*/, char* /*argv*/[])
         squareSumArray[i] = sum;
     });
     Number result = 0;
-    for_distinct_collection(squareSumArray.begin(), squareSumArray.end(), 2, 
+    for_distinct_collection(squareSumArray.begin(), squareSumArray.end(), 2,
         [&](std::vector<NumberArray::iterator>::iterator begin, std::vector<NumberArray::iterator>::iterator end)
         {
             Number number = **(begin+1) - **begin;
@@ -100,7 +102,13 @@ int main(int /*argc*/, char* /*argv*/[])
                 return;
             }
             std::string s = boost::lexical_cast<std::string>(number);
+            if (1 == (*(begin+1) - *begin)) {
+                return;
+            }
             if (isPalindromic(s.begin(), s.end())) {
+                std::cout << *begin - squareSumArray.begin() << " " << *(begin+1) - squareSumArray.begin() << std::endl;
+                std::cout << "@ " << number << std::endl;
+                std::cout << std::endl;
                 result += number;
             }
         }
