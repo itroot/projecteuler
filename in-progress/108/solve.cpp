@@ -5,6 +5,12 @@
 // n*(x+y) = x*y
 // x = n*y/(n-y)
 
+namespace uneffective {
+std::vector<size_t> fractionize(size_t number)
+{
+    
+}
+}
 
 size_t test(size_t n)
 {
@@ -25,7 +31,7 @@ size_t test(size_t n)
 int main(int argc, char* argv[])
 {
     size_t max_so_far = 0;
-    for (size_t n = 1; n!=100000; ++n) {
+    for (size_t n = 1; n!=1000000; ++n) {
         //std::cout << "-- " << n << std::endl;
         size_t number = test(n);
         if (number > max_so_far) {
