@@ -10,7 +10,7 @@
 #include <set>
 
 namespace {
-    const std::string filename = "test-network.txt";
+    const std::string filename = "network.txt";
 }
 
 typedef size_t Number;
@@ -36,7 +36,6 @@ Table loadTable(const std::string& filename)
         boost::split(s, line, boost::is_any_of(","));
         Row row(s.size());
         std::transform(s.begin(), s.end(), row.begin(), convertField);
-        //std::cout << row[0] << std::endl;
         result.push_back(row);
     }
     return result;
@@ -44,7 +43,8 @@ Table loadTable(const std::string& filename)
 
 struct Edge {
     size_t weight;
-    std::array<size_t, 2> verticeArray;
+    size_t i;
+    size_t j;
     bool operator<(const Edge& other) const {
         return weight > other.weight;
     }
@@ -62,74 +62,50 @@ int main(int argc, char* argv[])
                 continue;
             }
             edge.weight = weight;
-            edge.verticeArray[0] = i;
-            edge.verticeArray[1] = j;
+            edge.i = i;
+            edge.j = j;
             q.push(edge);
         }
     }
-    //std::cout << q.size() << std::endl;
     size_t result = 0;
+    size_t all = 0;
     typedef std::set<size_t> Set;
-    typedef std::vector<Set> Vector;
-    typedef Vector::iterator Iterator;
-    Vector visited;
+    typedef std::list<Set> List;
+    typedef List::iterator Iterator;
+    List visited;
     while (!q.empty()) {
         Edge edge = q.top();
         q.pop();
+        all += edge.weight;
         Iterator i1 = visited.end();
         Iterator i2 = visited.end();
         for (Iterator it=visited.begin() ; it!= visited.end(); ++it) {
-            if (it->end() != it->find(edge.verticeArray[0])) {
+            if (it->end() != it->find(edge.i)) {
                 i1 = it;
             }
-            if (it->end() != it->find(edge.verticeArray[1])) {
+            if (it->end() != it->find(edge.j)) {
                 i2 = it;
             }
         }
-        std::cout << "Start: " << edge.weight << ", size: " << visited.size() << std::endl;
-        for (Set& s: visited) {
-            std::cout << "[";
-            for (size_t i: s) {
-                std::cout << i << ",";
-            }
-            std::cout << "],";
-        }
-        std::cout << " @ " << edge.verticeArray[0] << " " << edge.verticeArray[1] << std::endl;
         if (i1 == visited.end() && i2 == visited.end()) {
-            std::cout << "No one: " << edge.weight << std::endl;
             Set s;
-            s.insert(edge.verticeArray[0]);
-            s.insert(edge.verticeArray[1]);
+            s.insert(edge.i);
+            s.insert(edge.j);
             visited.push_back(s);
         } else if (i1 == visited.end()) {
-            std::cout << "1: " << edge.weight << std::endl;
-            i2->insert(edge.verticeArray[0]);
-            i2->insert(edge.verticeArray[1]);
+            i2->insert(edge.i);
+            i2->insert(edge.j);
         } else if (i2 == visited.end()) {
-            std::cout << "2: " << edge.weight << std::endl;
-            i1->insert(edge.verticeArray[0]);
-            i1->insert(edge.verticeArray[1]);
+            i1->insert(edge.i);
+            i1->insert(edge.j);
         } else {
             if (i1==i2) {
-                std::cout << visited.size() << std::endl;
-                std::cout << "Fail: " << edge.weight << std::endl;
                 continue;
             }
             i1->insert(i2->begin(), i2->end());
             visited.erase(i2);
         }
-        /*
-        if ((visited.end() != visited.find(edge.verticeArray[0])) && (visited.end() != visited.find(edge.verticeArray[1]))) {
-            std::cout << "No: " << edge.weight << std::endl;
-            continue;
-        } else {
-        */
-           // visited.insert(edge.verticeArray[0]);
-           // visited.insert(edge.verticeArray[1]);
-            result += edge.weight;
-            //std::cout << edge.weight << std::endl;
-        //}
-        std::cout << "Ok: " << edge.weight << std::endl;
+        result += edge.weight;
     }
-    std::cout << result << std::endl;
+    std::cout << all - result << std::endl;
 }
