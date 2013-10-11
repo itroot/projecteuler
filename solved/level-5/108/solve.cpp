@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 // 1/x+1/y=1/n
 // n*x + n*y = x*y
@@ -17,6 +18,7 @@ size_t test(size_t n)
     size_t result = 0;
     for (size_t x = (n+1); x!=(2*n+1) ; ++x) {
         size_t y = n*x/(x-n);
+        //std::cout << x << " " << y << " " << n << std::endl;
         bool match = ((n*(x+y)) == (x*y));
         //std::cout << n << " " << x << " " << y << " " << result << std::endl;
         if (match) {
