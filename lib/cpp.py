@@ -32,7 +32,7 @@ def compile():
         lstring = ""
         if "libraries" in meta:
             lstring = " ".join(map(lambda e: "-l"+e, meta["libraries"]))
-        template = "g++ -std=c++0x -g -O0 -Wall solve.cpp %s -o %s"
+        template = "g++ -std=c++0x -g -O3 -Wall solve.cpp %s -o %s"
         command = template % (lstring, binaryPath)
         subprocess.check_call(command, shell=True)
     if os.path.exists("solve"):
