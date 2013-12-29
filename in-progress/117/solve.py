@@ -1,22 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+sys.path.append("../lib")
+from OwnMemoize import Memoize
+
 upperLimit = 50
 
-memory = {}
+def rgb_n_tiles(callee, number, i, n):
+    r = i + n
+    if not r > number:
+        return callee(callee, number - r)
+    else:
+        return 0
 
-def cnumber(n, first, size):
-    key = (n, first, size)
-    if (key in memory):
-        return memory[key]
-    result = 0
-    if not first:
-        result += 1
-    if n<size:
-        result
-    for i in range(0, n-size+1):
-        result += cnumber(n-i-size, False, size)
-    memory[key] = result
+def rgb_tiles(callee, number):
+    result = 1
+    if number<2:
+        return result
+    for i in range(0, number):
+        result += sum(map(lambda e: rgb_n_tiles(callee, number, i, e), range(2,5)))
     return result
 
-print cnumber(upperLimit, True, 2) + cnumber(upperLimit, True, 3) + cnumber(upperLimit, True, 4)
+m = Memoize()
+print m.run(rgb_tiles, upperLimit)
