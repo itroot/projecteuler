@@ -3,11 +3,22 @@
 
 from collections import namedtuple
 
-#upperLimit = 15
+upperLimit = 15
 upperLimit = 200
 
-T = namedtuple("T", ["first", "second", "steps"])
-t = {1 : [T(None, None, 0)]}
+Way = namedtuple("Way", ["father", "mother", "steps"])
+d = {1 : [Way(None, None, 0)]}
+
+# gcd ?
+
+def path(number):
+    if 1 == number:
+        return [1]
+    else:
+        way = d[number]
+        father = way[0].father
+        mother = way[0].mother
+        return [number] + path(father) + path(mother)
 
 def dijest(number):
     #print number
@@ -15,19 +26,22 @@ def dijest(number):
     for s1 in range(1, number/2+1):
         s2 = number - s1
         # FIX this
+        # FIXME TODO problem is that a = s1 + s2, s2>=s1. We need to optimize
+        # by number of common numbers in s1 and s2. This is one optimiztion,
+        # but it is not optimum
         if s2 % s1 != 0:
-            dumb_steps = t[s1][0].steps + t[s2][0].steps + 1
+            dumb_steps = d[s1][0].steps + d[s2][0].steps + 1
         else:
-            dumb_steps = t[s2][0].steps + 1
-        result.append(T(s2, s1, dumb_steps))
-    t[number] = sorted(result, key=lambda e: e.steps)
-    #print t[number]
-    return t[number][0].steps
+            dumb_steps = d[s2][0].steps + 1
+        result.append(Way(s2, s1, dumb_steps))
+    d[number] = sorted(result, key=lambda e: e.steps)
+    print d[number][0]
+    return d[number][0].steps
 
 result = 0
 for i in range(1, upperLimit):
     number = i + 1
     multiplications = dijest(number)
-    print number, multiplications
+    print number, multiplications, sorted(set(path(number)))
     result += multiplications
 print result
