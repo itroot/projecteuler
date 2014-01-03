@@ -44,4 +44,24 @@ for i in range(1, upperLimit):
     multiplications = dijest(number)
     print number, multiplications, sorted(set(path(number)))
     result += multiplications
+print "Max steps:", max(map(lambda e: e[0].steps, d.itervalues()))
 print result
+
+print "\n"*25
+print "==="
+
+upperLimit = 15
+
+tree = {None: 1}
+current = [1]
+resultvec = {(i+1, None) for i in range(upperLimit)}
+print resultvec
+iteration_number = 0
+iteration_maximum = 5
+while True:
+    iteration_number += 1
+    print iteration_number
+    if iteration_number == iteration_maximum:
+        break
+
+
