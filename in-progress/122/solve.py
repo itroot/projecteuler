@@ -52,15 +52,23 @@ print "==="
 
 upperLimit = 15
 
-tree = {None: 1}
+#Node = namedtuple("Node", ["next", "prev"])
+
+tree = {1 : None} #{None: (1, None)}
 current = [1]
-resultvec = {(i+1, None) for i in range(upperLimit)}
-print resultvec
+#level = []
+#next_bunch = []
+found = dict((i+1, None) for i in range(upperLimit))
+
 iteration_number = 0
 iteration_maximum = 5
 while True:
-    iteration_number += 1
     print iteration_number
+    for number in current:
+        if found[number] is None:
+            found[number] = iteration_number
+    print found
+    iteration_number += 1
     if iteration_number == iteration_maximum:
         break
 
