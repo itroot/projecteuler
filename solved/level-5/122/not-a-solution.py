@@ -38,15 +38,19 @@ def dijest(number):
     print d[number][0]
     return d[number][0].steps
 
+f = open("result-python.txt", "w")
 result = 0
 for i in range(1, upperLimit):
     number = i + 1
     multiplications = dijest(number)
-    print number, multiplications, sorted(set(path(number)))
+    sorted_path = sorted(set(path(number)), reverse=True)
+    f.write("%s\n" % " ".join(map(str, sorted_path)))
+    print number, multiplications, sorted_path
     result += multiplications
 print "Max steps:", max(map(lambda e: e[0].steps, d.itervalues()))
 print result
 
+"""
 print "\n"*25
 print "==="
 
@@ -73,3 +77,4 @@ while True:
         break
 
 
+"""
