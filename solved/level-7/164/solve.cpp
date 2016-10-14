@@ -47,6 +47,7 @@ struct Record {
 };
 
 int main(int argc, char* argv[]) {
+    /*
     typedef std::vector<Record> Records;
     Records records;
     for (size_t i = 0; i != 10; ++i) {
@@ -65,6 +66,7 @@ int main(int argc, char* argv[]) {
         }
     }
     return 0;
+    */
     Digits digits;
     digits.assign(DIGIT_NUMBER, 0);
     size_t counter = 0;
