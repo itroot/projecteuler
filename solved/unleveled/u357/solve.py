@@ -12,7 +12,10 @@ upper_limit = 10 ** 7
 
 f11n = F11n()
 
-for i in xrange(2, upper_limit + 1):
+primes = map(int, open("../lib/data/primes-100000000.list").read().split())
+
+for p in primes[1:]:
+    i = p - 1
     factors = f11n.factorize(i)
     ad = AD(factors)
     divisors = ad.divisors()
